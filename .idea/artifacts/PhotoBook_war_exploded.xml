@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="PhotoBook:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="PhotoBook/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="PhotoBook" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
