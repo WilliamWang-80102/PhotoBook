@@ -125,7 +125,8 @@ function dragPhoto(drag_x, drag_y) {
 		return;
     var tempX = photoParent[photoCount - 1][5] + (drag_x - photoParent[photoCount - 1][5]) * Math.cos(-photoParent[photoCount - 1][7]) - (drag_y - photoParent[photoCount - 1][6]) * Math.sin(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标x
     var tempY = photoParent[photoCount - 1][6] + (drag_x - photoParent[photoCount - 1][5]) * Math.sin(-photoParent[photoCount - 1][7]) + (drag_y - photoParent[photoCount - 1][6]) * Math.cos(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标y
-    if (((Math.abs(tempX - photoParent[photoCount - 1][5]) < photoParent[photoCount - 1][3] * 2 / 5) && (Math.abs(tempY - photoParent[photoCount - 1][6]) < 9 / 20 * photoParent[photoCount - 1][4])) || ((Math.abs(tempY - photoParent[photoCount - 1][6]) < photoParent[photoCount - 1][4] * 2 / 5) && (Math.abs(tempX - photoParent[photoCount - 1][5]) < 9 / 20 * photoParent[photoCount-1][3]))) {
+    if (((Math.abs(tempX - photoParent[photoCount - 1][5]) < photoParent[photoCount - 1][3] * 2 / 5) && 
+    	(Math.abs(tempY - photoParent[photoCount - 1][6]) < 9 / 20 * photoParent[photoCount - 1][4])) || ((Math.abs(tempY - photoParent[photoCount - 1][6]) < photoParent[photoCount - 1][4] * 2 / 5) && (Math.abs(tempX - photoParent[photoCount - 1][5]) < 9 / 20 * photoParent[photoCount-1][3]))) {
     	var tempPPx = photoParent[photoCount - 1][1];
     	var tempPPy = photoParent[photoCount - 1][2];
     	can.onmousemove = function (ev) {
@@ -134,11 +135,11 @@ function dragPhoto(drag_x, drag_y) {
     		var cy = (e.pageY - this.offsetTop) - drag_y;
     		photoParent[photoCount - 1][1] = tempPPx + cx;
     		photoParent[photoCount - 1][2] = tempPPy + cy;
-    		photoParent[photoCount - 1][5] = photoParent[photoCount - 1][1] + (photoParent[photoCount - 1][3] / 2);
-    		photoParent[photoCount - 1][6] = photoParent[photoCount - 1][2] + (photoParent[photoCount - 1][4] / 2);
-            //清空重画
-            redraw();
-        };
+			photoParent[photoCount - 1][5] = photoParent[photoCount - 1][1] + (photoParent[photoCount - 1][3] / 2);
+			photoParent[photoCount - 1][6] = photoParent[photoCount - 1][2] + (photoParent[photoCount - 1][4] / 2);
+			//清空重画
+			redraw();
+		};
         can.onmouseup = function () {
         	can.onmousemove = null;
         	can.onmouseup = null;
@@ -153,7 +154,11 @@ function rotatePhoto(rotate_x, rotate_y) {      //这个参数里面的x,y实际
 		return;
     var tempX = photoParent[photoCount - 1][5] + (rotate_x - photoParent[photoCount - 1][5]) * Math.cos(-photoParent[photoCount - 1][7]) - (rotate_y - photoParent[photoCount - 1][6]) * Math.sin(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标x
     var tempY = photoParent[photoCount - 1][6] + (rotate_x - photoParent[photoCount - 1][5]) * Math.sin(-photoParent[photoCount - 1][7]) + (rotate_y - photoParent[photoCount - 1][6]) * Math.cos(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标y
-    if ((Math.abs(tempX - photoParent[photoCount - 1][5]) >= 2 / 5 * photoParent[photoCount - 1][3]) && (Math.abs(tempX - photoParent[photoCount - 1][5]) <= 1 / 2 * photoParent[photoCount - 1][3]) && (Math.abs(tempY - photoParent[photoCount - 1][6]) >= 2 / 5 * photoParent[photoCount - 1][4]) && (Math.abs(tempY - photoParent[photoCount - 1][6]) <= 1 / 2 * photoParent[photoCount - 1][4]))
+    
+    var handlerX = photoParent[photoCount - 1][5];
+    var handlerY = photoParent[photoCount - 1][2] - 40;
+
+    if(Math.pow(tempX - handlerX,2) + Math.pow(tempY - handlerY,2) <= 25)
     {
     	var tempPPa = photoParent[photoCount - 1][7];
     	can.onmousemove = function (ev) {
@@ -207,11 +212,13 @@ function redraw(){
  * 四角圆半径5
  * 四边正方形边长8
  * 顶部把柄半径5
+ * 把柄距上边40
  */
 
 function borederRender(){
 	//无图片则返回
 	if(photoCount == 0) return;
+
 	//虚线矩形
 	cvs.save();
 	cvs.beginPath();
@@ -223,7 +230,8 @@ function borederRender(){
 	cvs.restore();
 
 	cvs.save();
-	cvs.translate(photoParent[photoParent.length - 1][1],photoParent[photoParent.length - 1][2])
+	cvs.translate(photoParent[photoParent.length - 1][1],photoParent[photoParent.length - 1][2]);
+	
 	//四个小原点
 	for(var i = 0; i < 2; i++){
 		for (var j = 0; j < 2; j++) {
@@ -237,6 +245,7 @@ function borederRender(){
 	//四个小矩形
 	cvs.save();
 	cvs.translate(photoParent[photoParent.length - 1][1],photoParent[photoParent.length - 1][2]);
+
 	//top
 	cvs.beginPath();
 	cvs.rect(photoParent[photoParent.length - 1][3] / 2 - 4,-4,8,8);
