@@ -38,6 +38,12 @@ function sleep(numberMillis) {
 	}
 }
 function drop(ev) {
+	//判断指针是否在画布范围内
+	if(!((ev.pageX >= can.offsetLeft) && (ev.pageX <= (can.offsetLeft + parseFloat(window.getComputedStyle(can).width))) && 
+		(ev.pageY >= can.offsetTop) && (ev.pageY <= can.offsetTop + parseFloat(window.getComputedStyle(can).height)))){
+		return;
+	}
+
 	ev.preventDefault();
 	var photoChildren = new Array();
 	var data = ev.dataTransfer.getData("Text");
@@ -66,14 +72,15 @@ function floatPhoto(float_x,float_y) {
     for (var i = 0; i < photoCount; i++) {
         var tempX = photoParent[i][5] + (float_x - photoParent[i][5]) * Math.cos(-photoParent[i][7]) - (float_y - photoParent[i][6]) * Math.sin(-photoParent[i][7]); //鼠标按图片旋转角还原的临时坐标x
         var tempY = photoParent[i][6] + (float_x - photoParent[i][5]) * Math.sin(-photoParent[i][7]) + (float_y - photoParent[i][6]) * Math.cos(-photoParent[i][7]); //鼠标按图片旋转角还原的临时坐标y
-
+        //若指针在该图片范围内
         if (Math.abs(tempX - photoParent[i][5]) <= (photoParent[i][3] / 2) && Math.abs(tempY - photoParent[i][6]) <= (photoParent[i][4] / 2)) {
         	a = photoLAP.push(photoParent[i]);
         }
     }
+
     //重叠数组最后一个即符合上述条件,将此图片移到总图片数组的最后面
     for (var i = photoCount - 1; i >= 0; i--) {
-        if (a == 0) break;    //点击空白处的操作
+        if (a == 0) return;    //点击空白处的操作
         if ((photoParent[i][0] == photoLAP[a - 1][0]) && (photoParent[i][1] == photoLAP[a - 1][1]) && (photoParent[i][2] == photoLAP[a - 1][2]) && (photoParent[i][3] == photoLAP[a - 1][3]) && (photoParent[i][4] == photoLAP[a - 1][4]) && (photoParent[i][5] == photoLAP[a - 1][5]) && (photoParent[i][6] == photoLAP[a - 1][6]) && (photoParent[i][7] == photoLAP[a - 1][7])) {
         	var temp = photoParent[i];
         	for (var b = i; b < photoCount - 1; b++) {
@@ -86,48 +93,53 @@ function floatPhoto(float_x,float_y) {
 
     //重绘图片
     redraw();
-
-    //为焦点图片绘制边框
 }
+
 /* 鼠标在画布上点击时*/
 //实现图片的平移（先用鼠标将层叠的图片区分开，想平移的绘制到最上面)
 can.onmousedown = function (ev) {  
-    var e = ev || event;
-    var drag_x = e.pageX - this.offsetLeft;
-    var drag_y = e.pageY - this.offsetTop;
-    floatPhoto(drag_x, drag_y);
-    dragPhoto(drag_x, drag_y);
-    rotatePhoto(drag_x, drag_y);
-    scalePhoto(drag_x, drag_y);
+	var e = ev || event;
+	var drag_x = e.pageX - this.offsetLeft;
+	var drag_y = e.pageY - this.offsetTop;
+	floatPhoto(drag_x, drag_y);
+	dragPhoto(drag_x, drag_y);
+	rotatePhoto(drag_x, drag_y);
+	scalePhoto(drag_x, drag_y);
 };
+
 //拖拽函数
 function dragPhoto(drag_x, drag_y) {
+	//无图片则返回
+	if(photoCount == 0) 
+		return;
     var tempX = photoParent[photoCount - 1][5] + (drag_x - photoParent[photoCount - 1][5]) * Math.cos(-photoParent[photoCount - 1][7]) - (drag_y - photoParent[photoCount - 1][6]) * Math.sin(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标x
     var tempY = photoParent[photoCount - 1][6] + (drag_x - photoParent[photoCount - 1][5]) * Math.sin(-photoParent[photoCount - 1][7]) + (drag_y - photoParent[photoCount - 1][6]) * Math.cos(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标y
     if (((Math.abs(tempX - photoParent[photoCount - 1][5]) < photoParent[photoCount - 1][3] * 2 / 5) && (Math.abs(tempY - photoParent[photoCount - 1][6]) < 9 / 20 * photoParent[photoCount - 1][4])) || ((Math.abs(tempY - photoParent[photoCount - 1][6]) < photoParent[photoCount - 1][4] * 2 / 5) && (Math.abs(tempX - photoParent[photoCount - 1][5]) < 9 / 20 * photoParent[photoCount-1][3]))) {
-            var tempPPx = photoParent[photoCount - 1][1];
-            var tempPPy = photoParent[photoCount - 1][2];
-            can.onmousemove = function (ev) {
-                var e = ev || event;
-                var cx = (e.pageX - this.offsetLeft) - drag_x;
-                var cy = (e.pageY - this.offsetTop) - drag_y;
-                photoParent[photoCount - 1][1] = tempPPx + cx;
-                photoParent[photoCount - 1][2] = tempPPy + cy;
-                photoParent[photoCount - 1][5] = photoParent[photoCount - 1][1] + (photoParent[photoCount - 1][3] / 2);
-                photoParent[photoCount - 1][6] = photoParent[photoCount - 1][2] + (photoParent[photoCount - 1][4] / 2);
-                //清空重画
-                redraw();
-            };
-            can.onmouseup = function () {
-            	can.onmousemove = null;
-            	can.onmouseup = null;
-            };
-        }
-        
+    	var tempPPx = photoParent[photoCount - 1][1];
+    	var tempPPy = photoParent[photoCount - 1][2];
+    	can.onmousemove = function (ev) {
+    		var e = ev || event;
+    		var cx = (e.pageX - this.offsetLeft) - drag_x;
+    		var cy = (e.pageY - this.offsetTop) - drag_y;
+    		photoParent[photoCount - 1][1] = tempPPx + cx;
+    		photoParent[photoCount - 1][2] = tempPPy + cy;
+    		photoParent[photoCount - 1][5] = photoParent[photoCount - 1][1] + (photoParent[photoCount - 1][3] / 2);
+    		photoParent[photoCount - 1][6] = photoParent[photoCount - 1][2] + (photoParent[photoCount - 1][4] / 2);
+            //清空重画
+            redraw();
+        };
+        can.onmouseup = function () {
+        	can.onmousemove = null;
+        	can.onmouseup = null;
+        };
     }
+}
 
 //旋转函数
 function rotatePhoto(rotate_x, rotate_y) {      //这个参数里面的x,y实际上是图片被点击瞬间一个角的坐标
+	//无图片则返回
+	if(photoCount == 0) 
+		return;
     var tempX = photoParent[photoCount - 1][5] + (rotate_x - photoParent[photoCount - 1][5]) * Math.cos(-photoParent[photoCount - 1][7]) - (rotate_y - photoParent[photoCount - 1][6]) * Math.sin(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标x
     var tempY = photoParent[photoCount - 1][6] + (rotate_x - photoParent[photoCount - 1][5]) * Math.sin(-photoParent[photoCount - 1][7]) + (rotate_y - photoParent[photoCount - 1][6]) * Math.cos(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标y
     if ((Math.abs(tempX - photoParent[photoCount - 1][5]) >= 2 / 5 * photoParent[photoCount - 1][3]) && (Math.abs(tempX - photoParent[photoCount - 1][5]) <= 1 / 2 * photoParent[photoCount - 1][3]) && (Math.abs(tempY - photoParent[photoCount - 1][6]) >= 2 / 5 * photoParent[photoCount - 1][4]) && (Math.abs(tempY - photoParent[photoCount - 1][6]) <= 1 / 2 * photoParent[photoCount - 1][4]))
@@ -175,11 +187,14 @@ function redraw(){
 		cvs.drawImage(rotaImg, photoParent[i][1], photoParent[i][2], photoParent[i][3], photoParent[i][4]);
 		cvs.restore();
 	}
+	//为焦点图片绘制边框
 	borederRender();
 }
 
 //为焦点图片绘制边框
 function borederRender(){
+	//无图片则返回
+	if(photoCount == 0) return;
 	//虚线矩形
 	cvs.save();
 	cvs.beginPath();
@@ -226,59 +241,50 @@ function borederRender(){
 	cvs.stroke();
 	cvs.restore();
 }
+
 //图片的放大缩小函数
 function scalePhoto(scale_x, scale_y) {
+	//无图片则返回
+	if(photoCount == 0) 
+		return;
     var tempX = photoParent[photoCount - 1][5] + (scale_x - photoParent[photoCount - 1][5]) * Math.cos(-photoParent[photoCount - 1][7]) - (scale_y - photoParent[photoCount - 1][6]) * Math.sin(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标x
     var tempY = photoParent[photoCount - 1][6] + (scale_x - photoParent[photoCount - 1][5]) * Math.sin(-photoParent[photoCount - 1][7]) + (scale_y - photoParent[photoCount - 1][6]) * Math.cos(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标y
     //右边框伸缩
     if ((tempX > photoParent[photoCount - 1][1] + 19 / 20 * photoParent[photoCount - 1][3]) && (tempX < photoParent[photoCount - 1][1] + photoParent[photoCount - 1][3]) && (Math.abs(tempY - photoParent[photoCount - 1][6]) < 2 / 5 * photoParent[photoCount - 1][4]))
     {
-        var tempPPw = photoParent[photoCount - 1][3];
-        can.onmousemove = function (ev) {
-            var e = ev || event;
-            sx = e.pageX - this.offsetLeft;
-            sy = e.pageY - this.offsetTop;
-           var tsX = photoParent[photoCount - 1][5] + (sx - photoParent[photoCount - 1][5]) * Math.cos(-photoParent[photoCount - 1][7]) - (sy - photoParent[photoCount - 1][6]) * Math.sin(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标x
-           var tsY = photoParent[photoCount - 1][6] + (sx - photoParent[photoCount - 1][5]) * Math.sin(-photoParent[photoCount - 1][7]) + (sy - photoParent[photoCount - 1][6]) * Math.cos(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标y
-           TTsx = tsX;
-           TTsy = tsY;
-        photoParent[photoCount - 1][3] = tempPPw + tsX - tempX;
-        if (photoParent[photoCount - 1][3] > 20) {
-            
-
-            cvs.clearRect(0, 0, can.width, can.height);
-            for (var i = 0; i < photoCount; i++) {
-
-                var scalImg = new Image();
-                scalImg.src = photoParent[i][0];
-                cvs.save();
-                cvs.translate(photoParent[i][5], photoParent[i][6]);
-                cvs.rotate(photoParent[i][7]);
-                cvs.translate(-photoParent[i][5], -photoParent[i][6]);
-                cvs.drawImage(scalImg, photoParent[i][1], photoParent[i][2], photoParent[i][3], photoParent[i][4]);
-                cvs.restore();
-            }
-        }
-        };       
-        can.onmouseup = function () {
-            photoParent[photoCount - 1][5] += 1 / 2 * (TTsx - tempX) * Math.cos(photoParent[photoCount - 1][7]);
-            photoParent[photoCount - 1][6] += 1 / 2 * (TTsx - tempX) * Math.sin(photoParent[photoCount - 1][7]);
-            photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
-            photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
-            can.onmousemove = null;
-            can.onmouseup = null;
-        };
-    }
+    	var tempPPw = photoParent[photoCount - 1][3];
+    	can.onmousemove = function (ev) {
+    		var e = ev || event;
+    		sx = e.pageX - this.offsetLeft;
+    		sy = e.pageY - this.offsetTop;
+	        var tsX = photoParent[photoCount - 1][5] + (sx - photoParent[photoCount - 1][5]) * Math.cos(-photoParent[photoCount - 1][7]) - (sy - photoParent[photoCount - 1][6]) * Math.sin(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标x
+	        var tsY = photoParent[photoCount - 1][6] + (sx - photoParent[photoCount - 1][5]) * Math.sin(-photoParent[photoCount - 1][7]) + (sy - photoParent[photoCount - 1][6]) * Math.cos(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标y
+	        TTsx = tsX;
+	        TTsy = tsY;
+	        photoParent[photoCount - 1][3] = tempPPw + tsX - tempX;
+	        if (photoParent[photoCount - 1][3] > 20) {
+	        	redraw();
+	        }
+    	}
+	};       
+	can.onmouseup = function () {
+		photoParent[photoCount - 1][5] += 1 / 2 * (TTsx - tempX) * Math.cos(photoParent[photoCount - 1][7]);
+		photoParent[photoCount - 1][6] += 1 / 2 * (TTsx - tempX) * Math.sin(photoParent[photoCount - 1][7]);
+		photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
+		photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
+		can.onmousemove = null;
+		can.onmouseup = null;
+	};
 
     //左边框伸缩
     if ((tempX > photoParent[photoCount - 1][1]) && (tempX < photoParent[photoCount - 1][1] + 1 / 20 * photoParent[photoCount - 1][3]) && (Math.abs(tempY - photoParent[photoCount - 1][6]) < 2 / 5 * photoParent[photoCount - 1][4]))
     {
-        var tempPPw = photoParent[photoCount - 1][3];
-        var tempPPdx = photoParent[photoCount - 1][1];
-        can.onmousemove = function (ev) {
-            var e = ev || event;
-            sx = e.pageX - this.offsetLeft;
-            sy = e.pageY - this.offsetTop;
+    	var tempPPw = photoParent[photoCount - 1][3];
+    	var tempPPdx = photoParent[photoCount - 1][1];
+    	can.onmousemove = function (ev) {
+    		var e = ev || event;
+    		sx = e.pageX - this.offsetLeft;
+    		sy = e.pageY - this.offsetTop;
             var tsX = photoParent[photoCount - 1][5] + (sx - photoParent[photoCount - 1][5]) * Math.cos(-photoParent[photoCount - 1][7]) - (sy - photoParent[photoCount - 1][6]) * Math.sin(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标x
             var tsY = photoParent[photoCount - 1][6] + (sx - photoParent[photoCount - 1][5]) * Math.sin(-photoParent[photoCount - 1][7]) + (sy - photoParent[photoCount - 1][6]) * Math.cos(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标y
             TTsx = tsX;
@@ -287,114 +293,74 @@ function scalePhoto(scale_x, scale_y) {
             photoParent[photoCount - 1][1] = tempPPdx + tsX - tempX;
 
             if (photoParent[photoCount - 1][3] > 20) {
-                
-
-                cvs.clearRect(0, 0, can.width, can.height);
-                for (var i = 0; i < photoCount; i++) {
-
-                    var scalImg = new Image();
-                    scalImg.src = photoParent[i][0];
-                    cvs.save();
-                    cvs.translate(photoParent[i][5], photoParent[i][6]);
-                    cvs.rotate(photoParent[i][7]);
-                    cvs.translate(-photoParent[i][5], -photoParent[i][6]);
-                    cvs.drawImage(scalImg, photoParent[i][1], photoParent[i][2], photoParent[i][3], photoParent[i][4]);
-                    cvs.restore();
-                }
+            	redraw();
             }
+        }
 
-        };
-        can.onmouseup = function () {
-            photoParent[photoCount - 1][5] += -1 / 2 * (tempX - TTsx) * Math.cos(photoParent[photoCount - 1][7]);
-            photoParent[photoCount - 1][6] += -1 / 2 * (tempX - TTsx) * Math.sin(photoParent[photoCount - 1][7]);
-            photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
-            photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
-            can.onmousemove = null;
-            can.onmouseup = null;
-        };
-    }
+    };
+    can.onmouseup = function () {
+    	photoParent[photoCount - 1][5] += -1 / 2 * (tempX - TTsx) * Math.cos(photoParent[photoCount - 1][7]);
+    	photoParent[photoCount - 1][6] += -1 / 2 * (tempX - TTsx) * Math.sin(photoParent[photoCount - 1][7]);
+    	photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
+    	photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
+    	can.onmousemove = null;
+    	can.onmouseup = null;
+    };
+
 
     //上边框伸缩
     if ((tempY > photoParent[photoCount - 1][2]) && (tempY < photoParent[photoCount - 1][2] + 1 / 20 * photoParent[photoCount - 1][4]) && (Math.abs(tempX - photoParent[photoCount - 1][5]) < 2 / 5 * photoParent[photoCount-1][3]))
     {
-        var tempPPh = photoParent[photoCount - 1][4];
-        var tempPPdy = photoParent[photoCount - 1][2];
-        can.onmousemove = function (ev) {
-            var e = ev || event;
-            sx = e.pageX - this.offsetLeft;
-            sy = e.pageY - this.offsetTop;
+    	var tempPPh = photoParent[photoCount - 1][4];
+    	var tempPPdy = photoParent[photoCount - 1][2];
+    	can.onmousemove = function (ev) {
+    		var e = ev || event;
+    		sx = e.pageX - this.offsetLeft;
+    		sy = e.pageY - this.offsetTop;
             var tsX = photoParent[photoCount - 1][5] + (sx - photoParent[photoCount - 1][5]) * Math.cos(-photoParent[photoCount - 1][7]) - (sy - photoParent[photoCount - 1][6]) * Math.sin(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标x
             var tsY = photoParent[photoCount - 1][6] + (sx - photoParent[photoCount - 1][5]) * Math.sin(-photoParent[photoCount - 1][7]) + (sy - photoParent[photoCount - 1][6]) * Math.cos(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标y
             TTsx = tsX;
             TTsy = tsY;
             photoParent[photoCount - 1][4] = tempPPh + tempY - tsY;
             photoParent[photoCount - 1][2] = tempPPdy + tsY - tempY;
-
             if (photoParent[photoCount - 1][4] > 20) {
-                
-
-                cvs.clearRect(0, 0, can.width, can.height);
-                for (var i = 0; i < photoCount; i++) {
-
-                    var scalImg = new Image();
-                    scalImg.src = photoParent[i][0];
-                    cvs.save();
-                    cvs.translate(photoParent[i][5], photoParent[i][6]);
-                    cvs.rotate(photoParent[i][7]);
-                    cvs.translate(-photoParent[i][5], -photoParent[i][6]);
-                    cvs.drawImage(scalImg, photoParent[i][1], photoParent[i][2], photoParent[i][3], photoParent[i][4]);
-                    cvs.restore();
-                }
+            	redraw();
             }
         };
         can.onmouseup = function () {
-            photoParent[photoCount - 1][5] += 1 / 2 * (tempY - TTsy) * Math.sin(photoParent[photoCount - 1][7]);
-            photoParent[photoCount - 1][6] += -1 / 2 * (tempY - TTsy) * Math.cos(photoParent[photoCount - 1][7]);
-            photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
-            photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
-            can.onmousemove = null;
-            can.onmouseup = null;
+        	photoParent[photoCount - 1][5] += 1 / 2 * (tempY - TTsy) * Math.sin(photoParent[photoCount - 1][7]);
+        	photoParent[photoCount - 1][6] += -1 / 2 * (tempY - TTsy) * Math.cos(photoParent[photoCount - 1][7]);
+        	photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
+        	photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
+        	can.onmousemove = null;
+        	can.onmouseup = null;
         };
     }
 
     //下边框伸缩
     if ((tempY > photoParent[photoCount - 1][2] + 19 / 20 * photoParent[photoCount - 1][4]) && (tempY < photoParent[photoCount - 1][2] + photoParent[photoCount - 1][4]) && (Math.abs(tempX - photoParent[photoCount - 1][5]) < 2 / 5 * photoParent[photoCount - 1][3]))
     {
-        var tempPPh = photoParent[photoCount - 1][4];
-        can.onmousemove = function (ev) {
-            var e = ev || event;
-            sx = e.pageX - this.offsetLeft;
-            sy = e.pageY - this.offsetTop;
+    	var tempPPh = photoParent[photoCount - 1][4];
+    	can.onmousemove = function (ev) {
+    		var e = ev || event;
+    		sx = e.pageX - this.offsetLeft;
+    		sy = e.pageY - this.offsetTop;
             var tsX = photoParent[photoCount - 1][5] + (sx - photoParent[photoCount - 1][5]) * Math.cos(-photoParent[photoCount - 1][7]) - (sy - photoParent[photoCount - 1][6]) * Math.sin(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标x
             var tsY = photoParent[photoCount - 1][6] + (sx - photoParent[photoCount - 1][5]) * Math.sin(-photoParent[photoCount - 1][7]) + (sy - photoParent[photoCount - 1][6]) * Math.cos(-photoParent[photoCount - 1][7]); //鼠标按图片旋转角还原的临时坐标y
             TTsx = tsX;
             TTsy = tsY;
             photoParent[photoCount - 1][4] = tempPPh + tsY - tempY;
-
             if (photoParent[photoCount - 1][4] > 20) {
-                
-
-                cvs.clearRect(0, 0, can.width, can.height);
-                for (var i = 0; i < photoCount; i++) {
-
-                    var scalImg = new Image();
-                    scalImg.src = photoParent[i][0];
-                    cvs.save();
-                    cvs.translate(photoParent[i][5], photoParent[i][6]);
-                    cvs.rotate(photoParent[i][7]);
-                    cvs.translate(-photoParent[i][5], -photoParent[i][6]);
-                    cvs.drawImage(scalImg, photoParent[i][1], photoParent[i][2], photoParent[i][3], photoParent[i][4]);
-                    cvs.restore();
-                }
+				redraw();
             }
         };       
         can.onmouseup = function () {
-            photoParent[photoCount - 1][5] += -1 / 2 * (TTsy - tempY) * Math.sin(photoParent[photoCount - 1][7]);
-            photoParent[photoCount - 1][6] += 1 / 2 * (TTsy - tempY) * Math.cos(photoParent[photoCount - 1][7]);
-            photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
-            photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
-            can.onmousemove = null;
-            can.onmouseup = null;
+        	photoParent[photoCount - 1][5] += -1 / 2 * (TTsy - tempY) * Math.sin(photoParent[photoCount - 1][7]);
+        	photoParent[photoCount - 1][6] += 1 / 2 * (TTsy - tempY) * Math.cos(photoParent[photoCount - 1][7]);
+        	photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
+        	photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
+        	can.onmousemove = null;
+        	can.onmouseup = null;
         };
     }
 }
