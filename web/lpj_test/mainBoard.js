@@ -11,13 +11,22 @@ var can = document.getElementById('myCanvas');
 var cvs = can.getContext("2d"); 
 
 /* 实时获取鼠标在画布上的位置*/
-can.onmousemove = function (ev) {
-	var e = ev || event;
-	Location_x = e.pageX - this.offsetLeft;
-	Location_y = e.pageY - this.offsetTop;
+function getMousePosition(e){
+	var e = e || event;
+	Location_x = e.pageX - can.offsetLeft;
+	Location_y = e.pageY - can.offsetTop;
 	position_x = Location_x;
 	position_y = Location_y;
-};
+}
+
+can.onmousemove = function(e){
+	var e = e || event;
+	Location_x = e.pageX - can.offsetLeft;
+	Location_y = e.pageY - can.offsetTop;
+	position_x = Location_x;
+	position_y = Location_y;
+}
+
 function showPos() {
 	console.log('X:', Location_x);
 	console.log('Y:', Location_y);
@@ -43,6 +52,8 @@ function drop(ev) {
 		(ev.pageY >= can.offsetTop) && (ev.pageY <= can.offsetTop + parseFloat(window.getComputedStyle(can).height)))){
 		return;
 	}
+	//获取释放鼠标时指针坐标
+	getMousePosition(ev);
 
 	ev.preventDefault();
 	var photoChildren = new Array();
@@ -191,7 +202,13 @@ function redraw(){
 	borederRender();
 }
 
-//为焦点图片绘制边框
+/**
+ * 为焦点图片绘制边框
+ * 四角圆半径5
+ * 四边正方形边长8
+ * 顶部把柄半径5
+ */
+
 function borederRender(){
 	//无图片则返回
 	if(photoCount == 0) return;
@@ -240,6 +257,26 @@ function borederRender(){
 	cvs.rect(photoParent[photoParent.length - 1][3]-4,photoParent[photoParent.length - 1][4] / 2 - 4,8,8);
 	cvs.stroke();
 	cvs.restore();
+
+	//把柄
+	cvs.save();
+	cvs.translate(photoParent[photoParent.length - 1][1] + photoParent[photoParent.length - 1][3] / 2,photoParent[photoParent.length - 1][2]);
+	cvs.beginPath();
+	cvs.arc(0,-40,5,0,2*Math.PI,true);
+	cvs.fillStyle = "green";
+	cvs.fill();
+	cvs.restore();
+
+	//直线
+	cvs.save();
+	cvs.translate(photoParent[photoParent.length - 1][1] + photoParent[photoParent.length - 1][3] / 2,photoParent[photoParent.length - 1][2]);
+	cvs.setLineDash([2,4]);
+	cvs.lineWidth = 1;
+	cvs.moveTo(0,0);
+	cvs.lineTo(0,-35);
+
+	cvs.stroke();
+	cvs.restore();
 }
 
 //图片的放大缩小函数
@@ -266,15 +303,16 @@ function scalePhoto(scale_x, scale_y) {
 	        	redraw();
 	        }
     	}
+    	can.onmouseup = function () {
+			photoParent[photoCount - 1][5] += 1 / 2 * (TTsx - tempX) * Math.cos(photoParent[photoCount - 1][7]);
+			photoParent[photoCount - 1][6] += 1 / 2 * (TTsx - tempX) * Math.sin(photoParent[photoCount - 1][7]);
+			photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
+			photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
+			can.onmousemove = null;
+			can.onmouseup = null;
+		};
 	};       
-	can.onmouseup = function () {
-		photoParent[photoCount - 1][5] += 1 / 2 * (TTsx - tempX) * Math.cos(photoParent[photoCount - 1][7]);
-		photoParent[photoCount - 1][6] += 1 / 2 * (TTsx - tempX) * Math.sin(photoParent[photoCount - 1][7]);
-		photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
-		photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
-		can.onmousemove = null;
-		can.onmouseup = null;
-	};
+	
 
     //左边框伸缩
     if ((tempX > photoParent[photoCount - 1][1]) && (tempX < photoParent[photoCount - 1][1] + 1 / 20 * photoParent[photoCount - 1][3]) && (Math.abs(tempY - photoParent[photoCount - 1][6]) < 2 / 5 * photoParent[photoCount - 1][4]))
@@ -296,17 +334,15 @@ function scalePhoto(scale_x, scale_y) {
             	redraw();
             }
         }
-
+		can.onmouseup = function () {
+	    	photoParent[photoCount - 1][5] += -1 / 2 * (tempX - TTsx) * Math.cos(photoParent[photoCount - 1][7]);
+	    	photoParent[photoCount - 1][6] += -1 / 2 * (tempX - TTsx) * Math.sin(photoParent[photoCount - 1][7]);
+	    	photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
+	    	photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
+	    	can.onmousemove = null;
+	    	can.onmouseup = null;
+	    };
     };
-    can.onmouseup = function () {
-    	photoParent[photoCount - 1][5] += -1 / 2 * (tempX - TTsx) * Math.cos(photoParent[photoCount - 1][7]);
-    	photoParent[photoCount - 1][6] += -1 / 2 * (tempX - TTsx) * Math.sin(photoParent[photoCount - 1][7]);
-    	photoParent[photoCount - 1][1] = photoParent[photoCount - 1][5] - photoParent[photoCount - 1][3] / 2;
-    	photoParent[photoCount - 1][2] = photoParent[photoCount - 1][6] - photoParent[photoCount - 1][4] / 2;
-    	can.onmousemove = null;
-    	can.onmouseup = null;
-    };
-
 
     //上边框伸缩
     if ((tempY > photoParent[photoCount - 1][2]) && (tempY < photoParent[photoCount - 1][2] + 1 / 20 * photoParent[photoCount - 1][4]) && (Math.abs(tempX - photoParent[photoCount - 1][5]) < 2 / 5 * photoParent[photoCount-1][3]))
