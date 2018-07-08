@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ public class Image2Byte {
             File[] files = file.listFiles();
             for (File file2 : files) {
                 /*如果在files中发现了文件夹，继续遍历此文件夹中的内容
-                * 递归*/
+                 * 递归*/
                 if (file2.isDirectory()) {
                     image2ByteFolder(file2);
                 }
