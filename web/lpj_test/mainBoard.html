@@ -3,10 +3,13 @@
      <head>
          <meta charset="utf-8" />
          <style type="text/css">
-             #photoTable,#photoBook{float:left;margin:5px;padding:5px;border:1px dashed #ff0000;}
+             #photoTable{float:left;margin:5px;padding:5px;border:0;}
+             #photoBook{float:left;border:0}
          </style>
+         <link rel="stylesheet" type="text/css" href="book.css">
          <script type="text/javascript" src="jquery-3.3.1.js"></script>
-         
+         <script type="text/javascript" src="jquery.min.js"></script>
+         <script type="text/javascript" src="bookTurn.js"></script>
      </head>
      
      <body>
@@ -39,9 +42,48 @@
                  </tr>
              </table>
          </div>
-         <div id="photoBook" style="height:700px;width:1000px" ondrop="drop(event)" ondragover="allowDrag(event)">
-             <canvas id="myCanvas" height="700" width="1000"></canvas>
 
+         <div id="photoBook" style="height:700px;width:1100px">
+             <a class="lastBtn"><</a>
+             <a class="nextBtn">></a>
+
+             <div class="bookPage first">
+                 <img src="cover.jpg" />
+             </div>
+
+             <div class="bookPage runPage" id="bookPage1" ondrop="drop(event)" ondragover="allowDrag(event)">
+                 <div id="bookContent1" class="bookContent">
+                     <canvas id="myCanvas1" height="700" width="550"></canvas>
+                 </div>
+                 <div id="bookContent2" class="bookContent">
+                     <canvas id="myCanvas2" height="700" width="550"></canvas>
+                 </div>
+                    
+             </div>
+
+             <div class="bookPage runPage" id="bookPage2" ondrop="drop(event)" ondragover="allowDrag(event)">
+                 <div id="bookContent3" class="bookContent">
+                     <canvas id="myCanvas3" height="700" width="550"></canvas>
+                 </div>
+                 <div id="bookContent4" class="bookContent">
+                     <canvas id="myCanvas4" height="700" width="550"></canvas>
+                 </div>
+             </div>
+
+             <div class="bookPage runPage" id="bookPage3" ondrop="drop(event)" ondragover="allowDrag(event)">
+                 <div id="bookContent5" class="bookContent">
+                     <canvas id="myCanvas5" height="700" width="550"></canvas>
+                 </div>
+                 <div id="bookContent6" class="bookContent">
+                     <canvas id="myCanvas6" height="700" width="550"></canvas>
+                 </div>
+             </div>
+
+             <div class="bookPage last" id="bookPage4" ondrop="drop(event)" ondragover="allowDrag(event)">
+                 <div id="bookContent7" class="bookContent">
+                     <canvas id="myCanvas7" height="700" width="550"></canvas>
+                 </div>
+             </div>
          </div>
 
          <script src="mainBoard.js"></script>
