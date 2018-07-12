@@ -31,70 +31,44 @@ const HANDLER_X = 0;
 const HANDLER_Y = -40;
 const MIN_LENGTH = 20;
 
-/*
-    var bookPageNum3;               //暂存页数
-    var operaFlag;                //告诉后面的操作函数这是左边还是右边
-    var can_i= -1;           //将点击到的canvas信息(canvas下标)传给相应的函数
-    var Ldown_x = e.pageX - document.getElementById('photoBook').offsetLeft;             //获取鼠标在photoBook中的位置，用于后面判断属于哪个画布
-    var Ldown_y = e.pageY - document.getElementById('photoBook').offsetTop;
-    if (Ldown_x >= 0 && Ldown_x < 550 && Ldown_y >= 0 && Ldown_y < 700) {                                         //左边           
-        bookPageNum1 = canNum1 / 2;
-        bookPageNum3 = bookPageNum1;
-        if (bookPageNum3 == 0)                                      //点到了封面，什么都不做
-        {
-            return;
-        }
-        drag_x = e.pageX - document.getElementById('photoBook').offsetLeft;// - document.getElementById("bookPage" + bookPageNum1).offsetLeft;
-        drag_y = e.pageY - document.getElementById('photoBook').offsetTop;// - document.getElementById("bookPage" + bookPageNum1).offsetTop;
-        can_i = canNum1 - 1;
-        can = document.getElementById('myCanvas' + canNum1);
-        cvs = can.getContext("2d");
-        operaFlag = 0;
-    }
-    else if (Ldown_x >= 550 && Ldown_x < 1100 && Ldown_y >= 0 && Ldown_y < 700) {                                  //右边
-        bookPageNum2 = (canNum1 + 2) / 2;
-        bookPageNum3 = bookPageNum2;
-        drag_x = e.pageX - document.getElementById('photoBook').offsetLeft - document.getElementById("bookPage" + bookPageNum2).offsetLeft;
-        drag_y = e.pageY - document.getElementById('photoBook').offsetTop - document.getElementById("bookPage" + bookPageNum2).offsetTop;
-        canNum2 = canNum1 + 1;
-        can_i = canNum2 - 1;
-        can = document.getElementById('myCanvas' + canNum2);
-        cvs = can.getContext("2d");
-        operaFlag = 1;
-    }
-    else
-    {
-        return;
-    }
- */
 window.onload = function(){
+	var myCan;
+	var myCtx;
 	for (var i = 0; i < 7; i++) {
         photoPP[i] = new Array();
     }
     for (var j = 1; j < 4; j++)
     {
         var k = 2 * j;
-        can = document.getElementById('myCanvas' + k);
-        cvs = can.getContext("2d");
-        cvs.translate(can.width, 0);
-        cvs.scale(-1, 1);
+        myCan = document.getElementById('myCanvas' + k);
+        myCtx = myCan.getContext("2d");
+        myCtx.translate(myCan.width, 0);
+        myCtx.scale(-1, 1);
     }
 	//光标样式变换
 	window.addEventListener('mousemove',function(ev){
 		var e = ev || event;
 		getMouseLocation(e);
 		can_i = -1;
+		var relative_x;
+		var relative_y;
 		if (Loc_x >= 0 && Loc_x < 550 && Loc_y >= 0 && Loc_y < 700) {                                         //左边
 	        if(canNum1 == 0) return;
 	        can_i = canNum1 - 1;
-	        can = document.getElementById('myCanvas' + canNum1);
-	        cvs = can.getContext("2d");
+	        bookPageNum1 = canNum1 / 2;
+	        myCan = document.getElementById('myCanvas' + canNum1);
+	        myCtx = myCan.getContext("2d");
+	        relative_x = Loc_x;
+	        relative_y = Loc_y;
 		}
 	    else if (Loc_x >= 550 && Loc_x < 1100 && Loc_y >= 0 && Loc_y < 700) {                                  //右边
 	        canNum2 = canNum1 + 1;
 	        can_i = canNum2 - 1;
-	        can = document.getElementById('myCanvas' + canNum2);
-	        cvs = can.getContext("2d");
+	        bookPageNum2 = (canNum1 + 2) / 2;
+	        myCan = document.getElementById('myCanvas' + canNum2);
+	        myCtx = myCan.getContext("2d");
+	        relative_x = Loc_x - document.getElementById('bookPage' + bookPageNum2).offsetLeft;
+	        relative_y = Loc_y - document.getElementById('bookPage' + bookPageNum2).offsetTop;
 	    }
 	    else
 	    {
@@ -102,8 +76,8 @@ window.onload = function(){
 	    }
 	    if(photoPP[can_i].length == 0) return;
 
-		var tempX = photoPP[can_i][photoPP[can_i].length - 1][5] + (Loc_x - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (Loc_y - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x
-	    var tempY = photoPP[can_i][photoPP[can_i].length - 1][6] + (Loc_x - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (Loc_y - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
+		var tempX = photoPP[can_i][photoPP[can_i].length - 1][5] + (relative_x - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (relative_y - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x
+	    var tempY = photoPP[can_i][photoPP[can_i].length - 1][6] + (relative_x - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (relative_y - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
 	   	if(//右边框拖拽
 	   		(tempX >=  (photoPP[can_i][photoPP[can_i].length - 1][1] + photoPP[can_i][photoPP[can_i].length - 1][3] - RECT_SIDE / 2)) && 
 	    	(tempX <=  (photoPP[can_i][photoPP[can_i].length - 1][1] + photoPP[can_i][photoPP[can_i].length - 1][3] + RECT_SIDE / 2)) && 
