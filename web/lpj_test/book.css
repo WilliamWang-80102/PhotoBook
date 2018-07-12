@@ -1,0 +1,123 @@
+﻿* {
+    padding: 0px;
+    margin: 0px;
+    color: #333;
+}
+
+
+::-moz-selection {
+    background: #338FFF;
+    color: #fff;
+}
+
+::-webkit-selection {
+    background: #338FFF;
+    color: #fff;
+}
+
+::selection {
+    background: #338FFF;
+    color: #fff;
+}
+
+
+
+#photoBook {
+    width: 1100px;
+    height: 700px;
+    position: relative;
+    top: 120px;
+    //margin: 30px auto;
+    -webkit-perspective-origin: 50% 60%;
+    perspective-origin: 50% 60%;
+    -webkit-perspective: 1500px;
+    perspective: 1500px;
+    background: url(bookBg.png) no-repeat 0 0;
+    background-size: 100% 100%;
+}
+
+.bookPage {
+    position: absolute;
+    width: 550px;
+    height: 700px;
+    top: 0;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: all linear 2s;
+    -moz-transition: all linear 2s;
+    -ms-transition: all linear 2s;
+    -o-transition: all linear 2s;
+    transition: all linear 2s;
+}
+
+    .bookPage .bookContent {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 550px;
+        height: 700px;
+        background: url(bookRight.png) no-repeat;
+        background-size: 100% 100%;
+        //background-position: 20.74px 8.3px;
+    }
+
+.frist {
+    left: 0;
+    z-index: 1;
+}
+
+    .frist img {
+        z-index: 1;
+    }
+
+.last {
+    right: 0;
+    z-index: 1;
+}
+
+.runPage {
+    right: 0;
+    -webkit-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+
+
+
+.runClass {
+    -webkit-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+    -ms-transform: rotateY(-180deg);
+    -o-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+}
+
+.lastBtn, .nextBtn {
+    //display: none;
+    position: absolute;
+    top: 300px;
+    cursor: pointer;
+    z-index: 999;
+    font-size: 50px;
+    line-height: 100px;
+    color: #fff;
+    text-decoration: none;
+    background-color: rgba(0,0,0,.5);
+}
+
+.lastBtn {
+    left: 0;
+}
+
+.nextBtn {
+    right: 0;
+}
+
+
+
+
