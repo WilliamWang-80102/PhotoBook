@@ -9,6 +9,7 @@ var Location_x;             //拖动图片到照片书上时鼠标相对于浏�
 var Location_y;             //同上
 var TTsx;                   //拉伸时重定位中心点用到的全局变量
 var TTsy;                   //同上
+var canNum1;
 var canNum2;            //右边画布页数（canNum1为左边画布页数）
 var bookPageNum1;       //左边bookPage页数
 var bookPageNum2;       //右边bookPage页数
@@ -18,6 +19,9 @@ var cvs;
 var Loc_x;                            //表示鼠标在photoBook中的位置
 var Loc_y;
 var photoPP_i;                         //表示当前是第几个画布
+var can_i;
+
+
 //var can = document.getElementById('myCanvas1');
 //var cvs = can.getContext("2d"); 
 
@@ -26,7 +30,43 @@ const CIRCLE_RADIUS = 5;
 const HANDLER_X = 0;
 const HANDLER_Y = -40;
 const MIN_LENGTH = 20;
-  
+
+/*
+    var bookPageNum3;               //暂存页数
+    var operaFlag;                //告诉后面的操作函数这是左边还是右边
+    var can_i= -1;           //将点击到的canvas信息(canvas下标)传给相应的函数
+    var Ldown_x = e.pageX - document.getElementById('photoBook').offsetLeft;             //获取鼠标在photoBook中的位置，用于后面判断属于哪个画布
+    var Ldown_y = e.pageY - document.getElementById('photoBook').offsetTop;
+    if (Ldown_x >= 0 && Ldown_x < 550 && Ldown_y >= 0 && Ldown_y < 700) {                                         //左边           
+        bookPageNum1 = canNum1 / 2;
+        bookPageNum3 = bookPageNum1;
+        if (bookPageNum3 == 0)                                      //点到了封面，什么都不做
+        {
+            return;
+        }
+        drag_x = e.pageX - document.getElementById('photoBook').offsetLeft;// - document.getElementById("bookPage" + bookPageNum1).offsetLeft;
+        drag_y = e.pageY - document.getElementById('photoBook').offsetTop;// - document.getElementById("bookPage" + bookPageNum1).offsetTop;
+        can_i = canNum1 - 1;
+        can = document.getElementById('myCanvas' + canNum1);
+        cvs = can.getContext("2d");
+        operaFlag = 0;
+    }
+    else if (Ldown_x >= 550 && Ldown_x < 1100 && Ldown_y >= 0 && Ldown_y < 700) {                                  //右边
+        bookPageNum2 = (canNum1 + 2) / 2;
+        bookPageNum3 = bookPageNum2;
+        drag_x = e.pageX - document.getElementById('photoBook').offsetLeft - document.getElementById("bookPage" + bookPageNum2).offsetLeft;
+        drag_y = e.pageY - document.getElementById('photoBook').offsetTop - document.getElementById("bookPage" + bookPageNum2).offsetTop;
+        canNum2 = canNum1 + 1;
+        can_i = canNum2 - 1;
+        can = document.getElementById('myCanvas' + canNum2);
+        cvs = can.getContext("2d");
+        operaFlag = 1;
+    }
+    else
+    {
+        return;
+    }
+ */
 window.onload = function(){
 	for (var i = 0; i < 7; i++) {
         photoPP[i] = new Array();
@@ -40,54 +80,72 @@ window.onload = function(){
         cvs.scale(-1, 1);
     }
 	//光标样式变换
-	can.addEventListener('mousemove',function(ev){
-		if(photoCount == 0) return;
+	window.addEventListener('mousemove',function(ev){
 		var e = ev || event;
-		getMousePosition(e);
-		var tempX = photoPP[can_i][photoPP[can_i].length - 1][5] + (Location_x - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (Location_y - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x
-	    var tempY = photoPP[can_i][photoPP[can_i].length - 1][6] + (Location_x - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (Location_y - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
+		getMouseLocation(e);
+		can_i = -1;
+		if (Loc_x >= 0 && Loc_x < 550 && Loc_y >= 0 && Loc_y < 700) {                                         //左边
+	        if(canNum1 == 0) return;
+	        can_i = canNum1 - 1;
+	        can = document.getElementById('myCanvas' + canNum1);
+	        cvs = can.getContext("2d");
+		}
+	    else if (Loc_x >= 550 && Loc_x < 1100 && Loc_y >= 0 && Loc_y < 700) {                                  //右边
+	        canNum2 = canNum1 + 1;
+	        can_i = canNum2 - 1;
+	        can = document.getElementById('myCanvas' + canNum2);
+	        cvs = can.getContext("2d");
+	    }
+	    else
+	    {
+	        return;
+	    }
+	    if(photoPP[can_i].length == 0) return;
+
+		var tempX = photoPP[can_i][photoPP[can_i].length - 1][5] + (Loc_x - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (Loc_y - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x
+	    var tempY = photoPP[can_i][photoPP[can_i].length - 1][6] + (Loc_x - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (Loc_y - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
 	   	if(//右边框拖拽
 	   		(tempX >=  (photoPP[can_i][photoPP[can_i].length - 1][1] + photoPP[can_i][photoPP[can_i].length - 1][3] - RECT_SIDE / 2)) && 
 	    	(tempX <=  (photoPP[can_i][photoPP[can_i].length - 1][1] + photoPP[can_i][photoPP[can_i].length - 1][3] + RECT_SIDE / 2)) && 
 	    	(tempY >= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] / 2 - RECT_SIDE / 2)) &&
 	    	(tempY <= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] / 2 + RECT_SIDE / 2))
 	    ){
-	   		this.style.cursor = 'e-resize';
+	   		can.style.cursor = 'e-resize';
 	    }else if (//左边框拖拽
 	    	(tempX >=  (photoPP[can_i][photoPP[can_i].length - 1][1] - RECT_SIDE / 2)) && 
 		    (tempX <=  (photoPP[can_i][photoPP[can_i].length - 1][1] + RECT_SIDE / 2)) && 
 		    (tempY >= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] / 2 - RECT_SIDE / 2)) &&
 		    (tempY <= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] / 2 + RECT_SIDE / 2))
 	    ){
-	    	this.style.cursor = 'w-resize';
+	    	can.style.cursor = 'w-resize';
 	    }else if(//上边框拖拽
 	    	(tempX >=  (photoPP[can_i][photoPP[can_i].length - 1][1] + photoPP[can_i][photoPP[can_i].length - 1][3] / 2 - RECT_SIDE / 2)) && 
 	    	(tempX <=  (photoPP[can_i][photoPP[can_i].length - 1][1] + photoPP[can_i][photoPP[can_i].length - 1][3] / 2 + RECT_SIDE / 2)) && 
 	    	(tempY >= (photoPP[can_i][photoPP[can_i].length - 1][2] - RECT_SIDE / 2)) &&
 	    	(tempY <= (photoPP[can_i][photoPP[can_i].length - 1][2] + RECT_SIDE / 2))
 	    ){
-	    	this.style.cursor = 'n-resize';
+	    	can.style.cursor = 'n-resize';
 	    }else if(//下边框拖拽
 	    	(tempX >=  (photoPP[can_i][photoPP[can_i].length - 1][1] + photoPP[can_i][photoPP[can_i].length - 1][3] / 2 - RECT_SIDE / 2)) && 
 	    	(tempX <=  (photoPP[can_i][photoPP[can_i].length - 1][1] + photoPP[can_i][photoPP[can_i].length - 1][3] / 2 + RECT_SIDE / 2)) && 
 	    	(tempY >= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] - RECT_SIDE / 2)) &&
 	    	(tempY <= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] + RECT_SIDE / 2))
 	    ){
-	    	this.style.cursor = 's-resize';
+	    	can.style.cursor = 's-resize';
 	    }else if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1],2) + 
 	    	Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2] - photoPP[can_i][photoPP[can_i].length - 1][4],2) < Math.pow(CIRCLE_RADIUS,2)){//左下角
-	    	this.style.cursor = 'sw-resize';
+	    	can.style.cursor = 'sw-resize';
 	    }else if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1],2) + 
 	    Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2],2) < Math.pow(CIRCLE_RADIUS,2)){//左上角
-	    	this.style.cursor = 'nw-resize';
+	    	can.style.cursor = 'nw-resize';
 	    }else if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1] - photoPP[can_i][photoPP[can_i].length - 1][3],2) + 
 	    	Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2],2) < Math.pow(CIRCLE_RADIUS,2)){//右上角
-	    	this.style.cursor = 'ne-resize';
+	    	can.style.cursor = 'ne-resize';
 	    }else if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1] - photoPP[can_i][photoPP[can_i].length - 1][3],2) + 
     	Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2] - photoPP[can_i][photoPP[can_i].length - 1][4],2) < Math.pow(CIRCLE_RADIUS,2)){//右下角
-	    	this.style.cursor = 'se-resize';
+	    	can.style.cursor = 'se-resize';
 	    }else {
-	    	this.style.cursor = 'auto';
+	    	can.style.cursor = 'auto';
 	    }
 	},false);
 }
@@ -112,7 +170,7 @@ function getMouseLocation(e) {
 }
 
 /* 实时获取鼠标在画布上的位置*/
-//function getMousePosition(e){
+//function getMouseLocation(e){
 //    var e = e || event;
 //    Location_x = e.pageX - document.getElementById('photoBook').offsetLeft - document.getElementById('bookPage1').offsetLeft;
 //    Location_y = e.pageY - document.getElementById('photoBook').offsetTop - document.getElementById('bookPage1').offsetTop;
@@ -167,7 +225,7 @@ function drop(ev) {
 	//	return;
 	//}
 	//获取释放鼠标时指针坐标
-	//getMousePosition(ev);
+	//getMouseLocation(ev);
 
 	ev.preventDefault();
 	var photoChildren = new Array();
@@ -431,7 +489,7 @@ function borederRender(can_i){
 
 	//bottom
 	cvs.beginPath();
-	cvs.rect(photoPP[can_i][photoPP[can_i].length - 1][3] / 2 - RECT_SIDE / 2,photoParent[photoParent.length - 1][4] - RECT_SIDE / 2,RECT_SIDE,RECT_SIDE);
+	cvs.rect(photoPP[can_i][photoPP[can_i].length - 1][3] / 2 - RECT_SIDE / 2,photoPP[can_i][photoPP[can_i].length - 1][4] - RECT_SIDE / 2,RECT_SIDE,RECT_SIDE);
 	cvs.stroke();
 
 	//left
@@ -541,11 +599,22 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 	{
 		var tempPPw = photoPP[can_i][photoPP[can_i].length - 1][3];
 		var tempPPdx = photoPP[can_i][photoPP[can_i].length - 1][1];
-		can.onmousemove = function (ev) {
+		window.onmousemove = function (ev) {
 			var e = ev || event;
-			getMousePosition(e);
-	        var tsX = photoPP[can_i][photoPP[can_i].length - 1][5] + (Location_x - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (Location_y - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x
-	        var tsY = photoPP[can_i][photoPP[can_i].length - 1][6] + (Location_x - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (Location_y - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
+			getMouseLocation(e);
+			var sx;
+            var sy;
+            if (operaFlag == 1) {
+                sx = e.pageX - document.getElementById('photoBook').offsetLeft - document.getElementById("bookPage" + bookPageNum3).offsetLeft;
+                sy = e.pageY - document.getElementById('photoBook').offsetTop - document.getElementById("bookPage" + bookPageNum3).offsetTop;
+            }
+            else if (operaFlag == 0)
+            {
+                sx = e.pageX - document.getElementById('photoBook').offsetLeft;
+                sy = e.pageY - document.getElementById('photoBook').offsetTop;
+            }
+	        var tsX = photoPP[can_i][photoPP[can_i].length - 1][5] + (sx - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (sy - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x
+	        var tsY = photoPP[can_i][photoPP[can_i].length - 1][6] + (sx - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (sy - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
 	        TTsx = tsX;
 	        TTsy = tsY;
 	        photoPP[can_i][photoPP[can_i].length - 1][3] = tempPPw + tempX - tsX;
@@ -556,7 +625,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 			photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
 			photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
 	        if (photoPP[can_i][photoPP[can_i].length - 1][3] > 20) {
-	        	redraw();
+	        	redraw(can_i);
 	        }
         }
         window.onmouseup = function () {
@@ -652,7 +721,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
     if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1],2) + Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2],2) < Math.pow(CIRCLE_RADIUS,2)){
     	window.onmousemove = function(ev){
     		var e = ev || event;
-    		getMousePosition(e);
+    		getMouseLocation(e);
     		var nowX;
     		var nowY;
  			if (operaFlag == 1) {
@@ -690,7 +759,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 
     		photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
 			photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
-			redraw();
+			redraw(can_i);
     	}
 
         window.onmouseup = function () {
@@ -704,7 +773,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
     if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1],2) + Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2] - photoPP[can_i][photoPP[can_i].length - 1][4],2) < Math.pow(CIRCLE_RADIUS,2)){
     	window.onmousemove = function(ev){
     		var e = ev || event;
-    		getMousePosition(e);
+    		getMouseLocation(e);
     		var nowX;
     		var nowY;
     		if (operaFlag == 1) {
@@ -741,7 +810,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 
 			photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
 			photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
-			redraw();
+			redraw(can_i);
     	}
     	window.onmouseup = function () {
         	window.onmousemove = null;
@@ -754,7 +823,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
     if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1] - photoPP[can_i][photoPP[can_i].length - 1][3],2) + Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2],2) < Math.pow(CIRCLE_RADIUS,2)){
     	window.onmousemove = function(ev){
     		var e = ev || event;
-    		getMousePosition(e);
+    		getMouseLocation(e);
     		var nowX;
     		var nowY;
     		if (operaFlag == 1) {
@@ -791,7 +860,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 			
 			photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
 			photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
-			redraw();
+			redraw(can_i);
             
     	}
     	window.onmouseup = function () {
@@ -842,7 +911,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 
 			photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
 			photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
-			redraw();
+			redraw(can_i);
     	}
     	window.onmouseup = function () {
         	window.onmousemove = null;
