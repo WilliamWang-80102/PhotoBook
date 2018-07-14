@@ -82,9 +82,9 @@ public class UploadTestServlet extends HttpServlet {
                         //将图片地址保存到request中，再转发回给jsp
                         //UPLOAD_DIR+fileName这个是相对路径，给前端页面
                         //realPath+fileName是绝对路径s
-                        request.setAttribute("path", UPLOAD_DIR+fileName);
-                        request.getRequestDispatcher("/UploadTest.jsp").forward(request, response);
-                        out.write("ok");
+                        //request.setAttribute("path", UPLOAD_DIR+fileName);
+                        //request.getRequestDispatcher("/UploadTest.jsp").forward(request, response);
+                        //out.write("ok");
                     }
                 }
             }

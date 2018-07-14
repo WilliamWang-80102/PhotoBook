@@ -47,4 +47,13 @@
         <servlet-name>UploadTestServlet</servlet-name>
         <url-pattern>/UploadTestServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SaveServlet</servlet-name>
+        <servlet-class>com.whu.controller.SaveServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SaveServlet</servlet-name>
+        <url-pattern>/SaveServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

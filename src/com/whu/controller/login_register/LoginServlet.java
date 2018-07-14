@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import javax.script.*;
 
 
-public class LoginServlet extends HttpServlet {
+public class LoginServlet {
     private static String errorMessige = null;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

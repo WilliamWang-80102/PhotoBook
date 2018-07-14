@@ -11,7 +11,8 @@ html,body{
   list-style: none;
   width: 1200px;
   height: 600px;
-  margin: 60px auto 0 auto;
+  margin-top: 5px;
+  /*margin: 60px auto 0 auto;*/
   padding: 10px;
   background-color: #F0F8FF;
 }
@@ -19,9 +20,9 @@ html,body{
   display: block;
   float: left;
   list-style: none;
-  width: 180px;
-  height: 180px;
-  padding: 10px;
+  width: 200px;
+  height: 200px;
+  padding: 85px;
 }
 .gallery-wrapper a{
   display: block;

@@ -11,6 +11,15 @@ public class PhotoBook {
     private double cx;
     private double cy;
     private double arc;
+    private int page;
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
 
     public String getUser() {
         return user;
