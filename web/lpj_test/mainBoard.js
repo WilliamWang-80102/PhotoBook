@@ -32,15 +32,13 @@ const HANDLER_X = 0;
 const HANDLER_Y = -40;
 const MIN_LENGTH = 20;
 
-
-
 $('.save').click(function () {
     //背景
     var background = window.getComputedStyle(document.getElementById("bookContentF")).backgroundImage;
     //书名
     var book_id = prompt("请输入照片书名：");
-	var jsonArr = JSON.stringify(photoPP);
-	//封面
+    var jsonArr = JSON.stringify(photoPP);
+    //封面
     var cover = document.getElementById("bookContentF").getElementsByTagName("img")[0].src;
 
 
@@ -68,25 +66,24 @@ $('.save').click(function () {
 
 
 window.onload = function(){
-
 	var myCan;
-	var myCtx;
-	for (var i = 0; i < 7; i++) {
+    var myCtx;
+    for (var i = 0; i < 2 * totalPagenum-1; i++) {
         photoPP[i] = new Array();
     }
-    for (var j = 1; j < 4; j++)
+    for (var j = 1; j < totalPagenum; j++)
     {
         var k = 2 * j;
-        myCan = document.getElementById('myCanvas' + k);
-        myCtx = myCan.getContext("2d");
-        myCtx.translate(myCan.width, 0);
-        myCtx.scale(-1, 1);
+        can = document.getElementById('myCanvas' + k);
+        cvs = can.getContext("2d");
+        cvs.translate(can.width, 0);
+        cvs.scale(-1, 1);
     }
 	//光标样式变换
 	window.addEventListener('mousemove',function(ev){
 		var e = ev || event;
 		getMouseLocation(e);
-		can_i = -1;
+		var can_i = -1;
 		var relative_x;
 		var relative_y;
         if (Loc_x >= 0 && Loc_x < 550 && Loc_y >= 0 && Loc_y < 700) {                                         //左边
@@ -95,8 +92,8 @@ window.onload = function(){
 	        bookPageNum1 = canNum1 / 2;
 	        myCan = document.getElementById('myCanvas' + canNum1);
 	        myCtx = myCan.getContext("2d");
-	        relative_x = Loc_x;
-	        relative_y = Loc_y;
+	        relative_x = Loc_x-22.81;
+	        relative_y = Loc_y-11.62;
 		}
         else if (Loc_x >= 550 && Loc_x < 1100 && Loc_y >= 0 && Loc_y < 700) {                                  //右边
             
@@ -225,8 +222,8 @@ function drop(ev) {
             can = document.getElementById('myCanvas' + canNum1);
             cvs = can.getContext("2d");
             bookPageNum1 = canNum1 / 2;
-            Location_x = Loc_x; //- document.getElementById('bookPage' + bookPageNum1).offsetLeft;                //得到鼠标在画布上的位置
-            Location_y = Loc_y; //- document.getElementById('bookPage' + bookPageNum1).offsetTop;      这个地方先这么写，之后加样式了再改
+            Location_x = Loc_x - 22.81;                //得到鼠标在画布上的位置
+            Location_y = Loc_y - 11.62;                         //这个地方先这么写，之后加样式了再改
             position_x = Location_x;
             position_y = Location_y;
             photoPP_i = canNum1 - 1;
@@ -271,7 +268,7 @@ function drop(ev) {
         dw = 250;
         dh = 404;
     }
-	cvs.drawImage(img, Location_x, Location_y, dw, dh);
+    cvs.drawImage(img, Location_x, Location_y, dw, dh);
 	photoChildren[0] = src1;
 	photoChildren[1] = Location_x;
 	photoChildren[2] = Location_y;
@@ -349,11 +346,11 @@ window.onmousedown = function (ev) {
         {
             return;
         }
-        drag_x = e.pageX - document.getElementById('photoBook').offsetLeft;// - document.getElementById("bookPage" + bookPageNum1).offsetLeft;
-        drag_y = e.pageY - document.getElementById('photoBook').offsetTop;// - document.getElementById("bookPage" + bookPageNum1).offsetTop;
+        drag_x = e.pageX - document.getElementById('photoBook').offsetLeft - 22.81;// - document.getElementById("bookPage" + bookPageNum1).offsetLeft;
+        drag_y = e.pageY - document.getElementById('photoBook').offsetTop - 11.62;// - document.getElementById("bookPage" + bookPageNum1).offsetTop;
         can_i = canNum1 - 1;
         canFlag = can_i;
-        for (var m = 0; m < 7; m++)                                                                                                                                                                   //一共多少页还没定，目前当成7页
+        for (var m = 0; m < 2 * totalPagenum-1; m++)                                                                                                                                                                   //一共多少页还没定，目前当成7页
         {
             var n = m + 1;
             can = document.getElementById('myCanvas' + n);
@@ -373,7 +370,7 @@ window.onmousedown = function (ev) {
         canNum2 = canNum1 + 1;
         can_i = canNum2 - 1;
         canFlag = can_i;
-        for (var m = 0; m < 7; m++)                                                                                                                                                                   //一共多少页还没定，目前当成7页
+        for (var m = 0; m < 2 * totalPagenum-1; m++)                                                                                                                                                                   //一共多少页还没定，目前当成7页
         {
             var n = m + 1;
             can = document.getElementById('myCanvas' + n);
@@ -417,8 +414,8 @@ function dragPhoto(drag_x, drag_y,can_i,bookPageNum3,operaFlag) {
             }
             else if (operaFlag == 0)
             {
-                cx = (e.pageX - document.getElementById('photoBook').offsetLeft) - drag_x;
-                cy = (e.pageY - document.getElementById('photoBook').offsetTop) - drag_y;
+                cx = (e.pageX - document.getElementById('photoBook').offsetLeft)-22.81 - drag_x;
+                cy = (e.pageY - document.getElementById('photoBook').offsetTop)-11.62 - drag_y;
             }
             photoPP[can_i][photoPP[can_i].length - 1][1] = tempPPx + cx;
             photoPP[can_i][photoPP[can_i].length - 1][2] = tempPPy + cy;
@@ -460,8 +457,8 @@ function rotatePhoto(rotate_x, rotate_y, can_i, bookPageNum3,operaFlag) {      /
             }
             else if (operaFlag == 0)
             {
-                rx = e.pageX - document.getElementById('photoBook').offsetLeft;
-                ry = e.pageY - document.getElementById('photoBook').offsetTop;
+                rx = e.pageX - document.getElementById('photoBook').offsetLeft-22.81;
+                ry = e.pageY - document.getElementById('photoBook').offsetTop-11.62;
             }
             /*保存临时角cos值的变量*/
             var tempCosValue = (Math.pow((rx - photoPP[can_i][photoPP[can_i].length - 1][5]), 2) + Math.pow((ry - photoPP[can_i][photoPP[can_i].length - 1][6]), 2) + Math.pow((rotate_x - photoPP[can_i][photoPP[can_i].length - 1][5]), 2) + Math.pow((rotate_y - photoPP[can_i][photoPP[can_i].length - 1][6]), 2) - Math.pow((rx - rotate_x), 2) - Math.pow((ry - rotate_y), 2)) / (2 * Math.sqrt((Math.pow((rx - photoPP[can_i][photoPP[can_i].length - 1][5]), 2) + Math.pow((ry - photoPP[can_i][photoPP[can_i].length - 1][6]), 2)) * (Math.pow((rotate_x - photoPP[can_i][photoPP[can_i].length - 1][5]), 2) + Math.pow((rotate_y - photoPP[can_i][photoPP[can_i].length - 1][6]), 2))));
@@ -628,8 +625,8 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             }
             else if (operaFlag == 0)
             {
-                sx = e.pageX - document.getElementById('photoBook').offsetLeft;
-                sy = e.pageY - document.getElementById('photoBook').offsetTop;
+                sx = e.pageX - document.getElementById('photoBook').offsetLeft-22.81;
+                sy = e.pageY - document.getElementById('photoBook').offsetTop-11.62;
             }
             var tsX = photoPP[can_i][photoPP[can_i].length - 1][5] + (sx - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (sy - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x
             var tsY = photoPP[can_i][photoPP[can_i].length - 1][6] + (sx - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (sy - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
@@ -680,8 +677,8 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             }
             else if (operaFlag == 0)
             {
-                sx = e.pageX - document.getElementById('photoBook').offsetLeft;
-                sy = e.pageY - document.getElementById('photoBook').offsetTop;
+                sx = e.pageX - document.getElementById('photoBook').offsetLeft-22.81;
+                sy = e.pageY - document.getElementById('photoBook').offsetTop-11.62;
             }
 	        var tsX = photoPP[can_i][photoPP[can_i].length - 1][5] + (sx - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (sy - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x
 	        var tsY = photoPP[can_i][photoPP[can_i].length - 1][6] + (sx - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (sy - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
@@ -725,8 +722,8 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             }
             else if (operaFlag == 0)
             {
-                sx = e.pageX - document.getElementById('photoBook').offsetLeft;
-                sy = e.pageY - document.getElementById('photoBook').offsetTop;
+                sx = e.pageX - document.getElementById('photoBook').offsetLeft-22.81;
+                sy = e.pageY - document.getElementById('photoBook').offsetTop-11.62;
             }
             var tsX = photoPP[can_i][photoPP[can_i].length - 1][5] + (sx - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (sy - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x
             var tsY = photoPP[can_i][photoPP[can_i].length - 1][6] + (sx - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (sy - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
@@ -767,8 +764,8 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             }
             else if (operaFlag == 0)
             {
-                sx = e.pageX - document.getElementById('photoBook').offsetLeft;
-                sy = e.pageY - document.getElementById('photoBook').offsetTop;
+                sx = e.pageX - document.getElementById('photoBook').offsetLeft-22.81;
+                sy = e.pageY - document.getElementById('photoBook').offsetTop-11.62;
             }
             var tsX = photoPP[can_i][photoPP[can_i].length - 1][5] + (sx - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (sy - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x
             var tsY = photoPP[can_i][photoPP[can_i].length - 1][6] + (sx - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (sy - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
@@ -807,8 +804,8 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             }
             else if (operaFlag == 0)
             {
-                nowX = e.pageX - document.getElementById('photoBook').offsetLeft;
-                nowY = e.pageY - document.getElementById('photoBook').offsetTop;
+                nowX = e.pageX - document.getElementById('photoBook').offsetLeft-22.81;
+                nowY = e.pageY - document.getElementById('photoBook').offsetTop-11.62;
             }
 
     		var tX = photoPP[can_i][photoPP[can_i].length - 1][5] + (nowX - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (nowY - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x 
@@ -862,8 +859,8 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             }
             else if (operaFlag == 0)
             {
-                nowX = e.pageX - document.getElementById('photoBook').offsetLeft;
-                nowY = e.pageY - document.getElementById('photoBook').offsetTop;
+                nowX = e.pageX - document.getElementById('photoBook').offsetLeft-22.81;
+                nowY = e.pageY - document.getElementById('photoBook').offsetTop-11.62;
             }
     		var tX = photoPP[can_i][photoPP[can_i].length - 1][5] + (nowX - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (nowY - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x 
     		var tY = photoPP[can_i][photoPP[can_i].length - 1][6] + (nowX - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (nowY - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
@@ -914,8 +911,8 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             }
             else if (operaFlag == 0)
             {
-                nowX = e.pageX - document.getElementById('photoBook').offsetLeft;
-                nowY = e.pageY - document.getElementById('photoBook').offsetTop;
+                nowX = e.pageX - document.getElementById('photoBook').offsetLeft-22.81;
+                nowY = e.pageY - document.getElementById('photoBook').offsetTop-11.62;
             }
     		var tX = photoPP[can_i][photoPP[can_i].length - 1][5] + (nowX - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (nowY - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x 
     		var tY = photoPP[can_i][photoPP[can_i].length - 1][6] + (nowX - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (nowY - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
@@ -967,8 +964,8 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             }
             else if (operaFlag == 0)
             {
-                nowX = e.pageX - document.getElementById('photoBook').offsetLeft;
-                nowY = e.pageY - document.getElementById('photoBook').offsetTop;
+                nowX = e.pageX - document.getElementById('photoBook').offsetLeft-22.81;
+                nowY = e.pageY - document.getElementById('photoBook').offsetTop-11.62;
             }
     		var tX = photoPP[can_i][photoPP[can_i].length - 1][5] + (nowX - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]) - (nowY - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标x 
     		var tY = photoPP[can_i][photoPP[can_i].length - 1][6] + (nowX - photoPP[can_i][photoPP[can_i].length - 1][5]) * Math.sin(-photoPP[can_i][photoPP[can_i].length - 1][7]) + (nowY - photoPP[can_i][photoPP[can_i].length - 1][6]) * Math.cos(-photoPP[can_i][photoPP[can_i].length - 1][7]); //鼠标按图片旋转角还原的临时坐标y
