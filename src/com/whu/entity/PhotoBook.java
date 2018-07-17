@@ -3,23 +3,9 @@ package com.whu.entity;
 public class PhotoBook {
     private String user;
     private String bookId;
-    private String path;
-    private double x;
-    private double y;
-    private double width;
-    private double height;
-    private double cx;
-    private double cy;
-    private double arc;
-    private int page;
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
+    private String cover;
+    private String content;
+    private String type;
 
     public String getUser() {
         return user;
@@ -37,67 +23,27 @@ public class PhotoBook {
         this.bookId = bookId;
     }
 
-    public String getPath() {
-        return path;
+    public String getCover() {
+        return cover;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
-    public double getX() {
-        return x;
+    public String getContent() {
+        return content;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public double getY() {
-        return y;
+    public String getType() {
+        return type;
     }
 
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public double getCx() {
-        return cx;
-    }
-
-    public void setCx(double cx) {
-        this.cx = cx;
-    }
-
-    public double getCy() {
-        return cy;
-    }
-
-    public void setCy(double cy) {
-        this.cy = cy;
-    }
-
-    public double getArc() {
-        return arc;
-    }
-
-    public void setArc(double arc) {
-        this.arc = arc;
+    public void setType(String type) {
+        this.type = type;
     }
 }

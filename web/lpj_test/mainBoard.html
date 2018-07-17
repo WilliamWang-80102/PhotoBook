@@ -3,88 +3,245 @@
      <head>
          <meta charset="utf-8" />
          <style type="text/css">
-             #photoTable{float:left;margin:5px;padding:5px;border:0;}
-             #photoBook{float:left;border:0}
+             .button1{
+                 position:absolute;
+                 left:0px;
+                 top:40px;
+                 font-size: 18px;
+                 background-color: #158533;
+                 color: black;
+                 border: 2px solid #064f27;
+                 height: 50px;
+                 width: 150px;
+                 -webkit-transition-duration: 0.4s;
+                 transition-duration: 0.4s;
+             }
+             .button2 {
+                 position: absolute;
+                 left: 150px;
+                 top: 40px;
+                 font-size: 18px;
+                 background-color: #158533;
+                 color: black;
+                 border: 2px solid #064f27;
+                 height: 50px;
+                 width: 150px;
+                 -webkit-transition-duration: 0.4s;
+                 transition-duration: 0.4s;
+             }
+             .save {
+                 position: absolute;
+                 left: 870px;
+                 top: 850px;
+                 font-size: 18px;
+                 background-color: #532d9a;
+                 color: black;
+                 border: 2px solid #a82f2f;
+                 height: 50px;
+                 width: 150px;
+                 -webkit-transition-duration: 0.4s;
+                 transition-duration: 0.4s;
+             }
+                 .save:hover {
+                     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.35),0 17px 50px 0 rgba(0,0,0,0.35);
+                 }
+             .button1:hover {
+                     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.35),0 17px 50px 0 rgba(0,0,0,0.35);
+                 }
+
+             .button2:hover {
+                     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.35),0 17px 50px 0 rgba(0,0,0,0.35);
+                 }
+             #viewWrapper {
+                 width: 300px;
+                 height: 850px;
+                 position: absolute;
+                 top: 90px;
+                 left: 0px;
+                 overflow: hidden;
+                 background: url(table.jpg) no-repeat 0 0;
+                 background-size: 100% 100%;
+             }
+
+             .pt-page {
+                 margin: 0px;
+                 padding: 0px;
+                 border: 0;
+                 position: absolute;
+                 top: 0px;
+                 left: 0px;
+                 visibility: hidden;
+                 -webkit-backface-visibility: hidden;
+                 -moz-backface-visibility: hidden;
+                 backface-visibility: hidden;
+                 -webkit-transform: translate3d(0, 0, 0);
+                 -moz-transform: translate3d(0, 0, 0);
+                 transform: translate3d(0, 0, 0);
+                 -webkit-transform-style: preserve-3d;
+                 -moz-transform-style: preserve-3d;
+                 transform-style: preserve-3d;
+             }
+
+             .pt-page-current, .no-js .pt-page {
+                 visibility: visible;
+                 z-index: 1;
+             }
+
+
+             #photoBook {
+                 float: left;
+                 border: 0
+             }
          </style>
+		     <title>PhotoBook</title>
+		<link rel="stylesheet" href="style.css" type="text/css" media="all">
          <link rel="stylesheet" type="text/css" href="book.css">
          <script type="text/javascript" src="jquery-3.3.1.js"></script>
+         <script src="modernizr.custom.js"></script>
          <script type="text/javascript" src="jquery.min.js"></script>
          <script type="text/javascript" src="bookTurn.js"></script>
      </head>
      
      <body>
-         <div id="photoTable" style="overflow:auto;height:900px;width:300px" ondrop="drop(event)" ondragover="allowDrag(event)">
-             <table border="2px">
-                 <tr>
-                     <td height="200px">
-                         <img src="1.jpg" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="1"/>
-                     </td>
-                 </tr>
-                 <tr>
-                     <td height="200px">
-                         <img src="2.jpg" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="2"/>
-                     </td>
-                 </tr>
-                 <tr>
-                     <td height="200px">
-                         <img src="3.jpg" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="3"/>
-                     </td>
-                 </tr>
-                 <tr>
-                     <td height="200px">
-                         <img src="4.jpg" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="4"/>
-                     </td>
-                 </tr>
-                 <tr>
-                     <td height="200px">
-                         <img src="5.jpg" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="5"/>
-                     </td>
-                 </tr>
-             </table>
+
+	 <div id="header">
+        <div class="header_warpper">
+            <a href="javascript:;" class="ft_black home"><font size=5 color="white">PhotoBook</font></a>
+            <ul class="header_top">
+                <li><a href="javascript:;" class="register "><font size=3 >注册</font></a></li>
+                <li><a href="javascript:;" class="signin "><font size=3 >登录</font></a></li>
+                <li><a href="javascript:;" class="photobook "><font size=3 >照片书</font></a></li>
+                <li><a href="javascript:;" class="custom_center "><font size=3 >个人中心</font></a></li>
+            </ul>
+        </div>
+     </div>
+
+	
+
+        <input class="button1" type="button" onclick="changeView('#photoTable')" value="图片" />
+        <input class="button2" type="button" onclick="changeView('#illustration')" value="插图" />
+         <div id="viewWrapper">
+             <div id="photoTable" class="pt-page" style="overflow:auto;height:850px;width:300px" ondrop="drop(event)" ondragover="allowDrag(event)">
+                 <table border="2px">
+                     <tr>
+                         <td height="200px">
+                             <img src="1.jpg" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="1" />
+                         </td>
+                     </tr>
+                     <tr>
+                         <td height="200px">
+                             <img src="2.jpg" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="2" />
+                         </td>
+                     </tr>
+                     <tr>
+                         <td height="200px">
+                             <img src="3.jpg" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="3" />
+                         </td>
+                     </tr>
+                     <tr>
+                         <td height="200px">
+                             <img src="4.jpg" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="4" />
+                         </td>
+                     </tr>
+                     <tr>
+                         <td height="200px">
+                             <img src="5.jpg" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="5" />
+                         </td>
+                     </tr>
+                 </table>
+             </div>
+
+             <div id="illustration" class="pt-page" style="overflow:auto;height:850px;width:300px" ondrop="drop(event)" ondragover="allowDrag(event)">
+                 <table border="2px">
+                     <tr>
+                         <th height="50px"><b>表情</b></th>
+                     </tr>
+                     <tr>
+                         <td height="100px" width="100px">
+                             <img src="chatu/biaoqing1.png" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="aa" />
+                         </td>
+                         <td height="100px" width="100px">
+                             <img src="chatu/biaoqing2.png" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="ab" />
+                         </td>
+                         <td height="100px" width="100px">
+                             <img src="chatu/biaoqing3.png" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="ac" />
+                         </td>
+                     </tr>
+                     <tr>
+                         <td height="100px" width="100px">
+                             <img src="chatu/biaoqing4.png" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="ad" />
+                         </td>
+                         <td height="100px" width="100px">
+                             <img src="chatu/biaoqing5.png" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="ae" />
+                         </td>
+                         <td height="100px" width="100px">
+                             <img src="chatu/biaoqing6.png" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="af" />
+                         </td>
+                     </tr>
+                     <tr>
+                         <td height="100px" width="100px">
+                             <img src="chatu/biaoqing7.png" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="ag" />
+                         </td>
+                         <td height="100px" width="100px">
+                             <img src="chatu/biaoqing8.png" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="ah" />
+                         </td>
+                         <td height="100px" width="100px">
+                             <img src="chatu/biaoqing9.png" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id="ai" />
+                         </td>
+                     </tr>
+                 </table>
+             </div>
          </div>
 
-         <div id="photoBook" style="height:700px;width:1100px">
-             <a class="lastBtn"><</a>
-             <a class="nextBtn">></a>
+             <div id="photoBook" style="height:700px;width:1100px">
+                 <a class="lastBtn"><</a>
+                 <a class="nextBtn">></a>
 
-             <div class="bookPage first">
-                 <img src="cover.jpg" />
-             </div>
+                 <div class="bookPage runPage">
+                     <div id="bookContentF" class="bookContent">
+                         <img src="cover.jpg" />
+                     </div>
+                     <div id="bookContentB" class="bookContent">
+                         <img src="cover.jpg" />
+                     </div>
+                 </div>
 
-             <div class="bookPage runPage" id="bookPage1" ondrop="drop(event)" ondragover="allowDrag(event)">
-                 <div id="bookContent1" class="bookContent">
-                     <canvas id="myCanvas1" height="700" width="550"></canvas>
-                 </div>
-                 <div id="bookContent2" class="bookContent">
-                     <canvas id="myCanvas2" height="700" width="550"></canvas>
-                 </div>
-                    
-             </div>
+                 <div class="bookPage runPage" id="bookPage1" ondrop="drop(event)" ondragover="allowDrag(event)">
+                     <div id="bookContent1" class="bookContent">
+                         <canvas id="myCanvas1" height="700" width="550"></canvas>
+                     </div>
+                     <div id="bookContent2" class="bookContent">
+                         <canvas id="myCanvas2" height="700" width="550"></canvas>
+                     </div>
 
-             <div class="bookPage runPage" id="bookPage2" ondrop="drop(event)" ondragover="allowDrag(event)">
-                 <div id="bookContent3" class="bookContent">
-                     <canvas id="myCanvas3" height="700" width="550"></canvas>
                  </div>
-                 <div id="bookContent4" class="bookContent">
-                     <canvas id="myCanvas4" height="700" width="550"></canvas>
-                 </div>
-             </div>
 
-             <div class="bookPage runPage" id="bookPage3" ondrop="drop(event)" ondragover="allowDrag(event)">
-                 <div id="bookContent5" class="bookContent">
-                     <canvas id="myCanvas5" height="700" width="550"></canvas>
+                 <div class="bookPage runPage" id="bookPage2" ondrop="drop(event)" ondragover="allowDrag(event)">
+                     <div id="bookContent3" class="bookContent">
+                         <canvas id="myCanvas3" height="700" width="550"></canvas>
+                     </div>
+                     <div id="bookContent4" class="bookContent">
+                         <canvas id="myCanvas4" height="700" width="550"></canvas>
+                     </div>
                  </div>
-                 <div id="bookContent6" class="bookContent">
-                     <canvas id="myCanvas6" height="700" width="550"></canvas>
-                 </div>
-             </div>
 
-             <div class="bookPage last" id="bookPage4" ondrop="drop(event)" ondragover="allowDrag(event)">
-                 <div id="bookContent7" class="bookContent">
-                     <canvas id="myCanvas7" height="700" width="550"></canvas>
+                 <div class="bookPage runPage" id="bookPage3" ondrop="drop(event)" ondragover="allowDrag(event)">
+                     <div id="bookContent5" class="bookContent">
+                         <canvas id="myCanvas5" height="700" width="550"></canvas>
+                     </div>
+                     <div id="bookContent6" class="bookContent">
+                         <canvas id="myCanvas6" height="700" width="550"></canvas>
+                     </div>
+                 </div>
+
+                 <div class="bookPage last" id="bookPage4" ondrop="drop(event)" ondragover="allowDrag(event)">
+                     <div id="bookContent7" class="bookContent">
+                         <canvas id="myCanvas7" height="700" width="550"></canvas>
+                     </div>
                  </div>
              </div>
-         </div>
+         
+         <input class="save" type="button" onclick="" value="保存" />
 
          <script src="mainBoard.js"></script>
      </body>

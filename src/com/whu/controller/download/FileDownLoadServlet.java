@@ -1,6 +1,6 @@
 package com.whu.controller.download;
 
-import com.whu.img.Image2Byte;
+import com.whu.database.DBConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -8,36 +8,41 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "FileDownLoadServlet")
 public class FileDownLoadServlet extends HttpServlet {
+    private static final String UPLOAD_DIR_MAP = "uploadDir/map/";
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //response.setContentType("image/jpg");
 
-        File file=new File("DBConnection.load()");
-        /*调用DBConnection中的load方法
-        * 得到数据库中所有的image
-        */
-        //File file=new File("D:/pic");
-        List list=Image2Byte.image2ByteFolder(file);
-     //   List list=Image2Byte.image2ByteFolder();
+        String mapPath="C:\\Users\\Administrator\\Desktop\\2018实训\\PhotoBook-dev\\out\\artifacts\\PhotoBook_war_exploded\\uploadDir\\map";
+        List mapList=new ArrayList();
+        File fileMap=new File(mapPath);
+        File[] arrayMap=fileMap.listFiles();
 
+        for(int i=0;i<arrayMap.length;i++){
+            String path=UPLOAD_DIR_MAP + arrayMap[i].getName();
+            //将路径存入mapList中
+            mapList.add(path);
+        }
         try {
-            //获得从database中下载数据存入一个List中
-            for (int i = 0; i < list.size(); i++) {
-                //将byte型的数组在网页上显示出来
-                ServletOutputStream servletOutputStream = response.getOutputStream();
-                servletOutputStream.write((byte[]) list.get(i));
-                servletOutputStream.close();
-            }
+            int a=arrayMap.length;
+            List photoList = DBConnection.load((String) request.getSession().getAttribute("id"));
+            HttpSession session=request.getSession();
+            session.setAttribute("a",a);
+            session.setAttribute("fileList",photoList);//照片
+            session.setAttribute("MapList",mapList);//贴图
+            response.sendRedirect("/lpj_test/mainBoard.jsp");
+            //response.sendRedirect("/DB2Web.jsp");
         }catch (Throwable throwable){
-            throwable.printStackTrace();;
+            throwable.printStackTrace();
         }
     }
 }

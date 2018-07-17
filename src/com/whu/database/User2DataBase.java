@@ -1,7 +1,6 @@
 package com.whu.database;
 
-import com.whu.database.DBConnection;
-import com.whu.entity.login;
+import com.whu.entity.Login;
 
 import java.sql.*;
 
@@ -10,9 +9,7 @@ public class User2DataBase {
 
     public static void insert(String id, String password_2) {
         Connection conn = DBConnection.getConnection();
-
         try {
-
             String sql = "insert into pass (user, password) values (?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1,id);
@@ -46,7 +43,7 @@ public class User2DataBase {
         return passwordyz;
     }
 
-    public static void update(login login){
+    public static void update(Login login){
         Connection conn = DBConnection.getConnection();
         int i = 0;
 

@@ -9,7 +9,6 @@ var Location_x;             //拖动图片到照片书上时鼠标相对于浏�
 var Location_y;             //同上
 var TTsx;                   //拉伸时重定位中心点用到的全局变量
 var TTsy;                   //同上
-var canNum1;
 var canNum2;            //右边画布页数（canNum1为左边画布页数）
 var bookPageNum1;       //左边bookPage页数
 var bookPageNum2;       //右边bookPage页数
@@ -19,7 +18,9 @@ var cvs;
 var Loc_x;                            //表示鼠标在photoBook中的位置
 var Loc_y;
 var photoPP_i;                         //表示当前是第几个画布
-var can_i;
+var chooseFlag = 0;           //表示是否有图片被选中    BOOL
+var deleteFlag = 0;           //表示是否进行了删除操作    BOOL
+var canFlag;              //表示当前哪个画布处于激活状态，是一个画布的下标
 
 
 //var can = document.getElementById('myCanvas1');
@@ -31,7 +32,43 @@ const HANDLER_X = 0;
 const HANDLER_Y = -40;
 const MIN_LENGTH = 20;
 
+
+
+$('.save').click(function () {
+    //背景
+    var background = window.getComputedStyle(document.getElementById("bookContentF")).backgroundImage;
+    //书名
+    var book_id = prompt("请输入照片书名：");
+	var jsonArr = JSON.stringify(photoPP);
+	//封面
+    var cover = document.getElementById("bookContentF").getElementsByTagName("img")[0].src;
+
+
+    $.ajax({
+        type: "POST", //请求方式
+        url: "/SaveServlet", //请求路径
+        cache: false,
+        data: {//传参
+            "photobook": jsonArr,
+            "book_id":book_id,
+            "cover":cover,
+            "background":background,
+        },
+        dataType: 'json',   //返回值类型
+        success: function () {
+            alert("success!");    //弹出返回过来的List对象
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        },
+    })
+})
+
+
 window.onload = function(){
+
 	var myCan;
 	var myCtx;
 	for (var i = 0; i < 7; i++) {
@@ -52,8 +89,8 @@ window.onload = function(){
 		can_i = -1;
 		var relative_x;
 		var relative_y;
-		if (Loc_x >= 0 && Loc_x < 550 && Loc_y >= 0 && Loc_y < 700) {                                         //左边
-	        if(canNum1 == 0) return;
+        if (Loc_x >= 0 && Loc_x < 550 && Loc_y >= 0 && Loc_y < 700) {                                         //左边
+            if (canNum1 == 0 || canNum1==-2) return;
 	        can_i = canNum1 - 1;
 	        bookPageNum1 = canNum1 / 2;
 	        myCan = document.getElementById('myCanvas' + canNum1);
@@ -61,8 +98,10 @@ window.onload = function(){
 	        relative_x = Loc_x;
 	        relative_y = Loc_y;
 		}
-	    else if (Loc_x >= 550 && Loc_x < 1100 && Loc_y >= 0 && Loc_y < 700) {                                  //右边
-	        canNum2 = canNum1 + 1;
+        else if (Loc_x >= 550 && Loc_x < 1100 && Loc_y >= 0 && Loc_y < 700) {                                  //右边
+            
+            canNum2 = canNum1 + 1;
+            if (canNum2 == -1) return;
 	        can_i = canNum2 - 1;
 	        bookPageNum2 = (canNum1 + 2) / 2;
 	        myCan = document.getElementById('myCanvas' + canNum2);
@@ -123,6 +162,21 @@ window.onload = function(){
 	    }
 	},false);
 }
+/*键盘监听事件*/
+document.onkeydown = function (e) {
+    var keyNum = window.event ? e.keyCode : e.which;   //考虑浏览器的兼容性
+    if (keyNum == 8) {
+        if (deleteFlag == 1) {
+            photoPP[photoPP_i].splice(photoPP[photoPP_i].length - 1, 1);
+            redraw(photoPP_i, canFlag);
+            deleteFlag = 0;
+        }
+        else {
+            alert("请选中一张图片再删除");
+        }
+    }
+}
+
 
 /*实时获取鼠标在photoBook上的位置，用于判断鼠标是在左页还是右页*/
 function getMouseLocation(e) {
@@ -165,6 +219,7 @@ function drop(ev) {
     if (pageFlag == 0)            //在左边的page
     {
         if (canNum1 == 0) return;            //鼠标在封面，什么都不做
+        if (canNum1 == -2) return;           //书还未打开，鼠标点在了左边外面
         else if (canNum1 > 0)
         {
             can = document.getElementById('myCanvas' + canNum1);
@@ -206,9 +261,16 @@ function drop(ev) {
 	var data = ev.dataTransfer.getData("Text");
 	var src1 = document.getElementById(data).src;
 	var img = new Image();
-	img.src = src1;
-	var dw = img.width;
-	var dh = img.height;
+    img.src = src1;
+    var dw, dh;
+    if (isNaN(data)) {
+        dw = 80;
+        dh = 80;
+    }
+    else {
+        dw = 250;
+        dh = 404;
+    }
 	cvs.drawImage(img, Location_x, Location_y, dw, dh);
 	photoChildren[0] = src1;
 	photoChildren[1] = Location_x;
@@ -227,7 +289,7 @@ function floatPhoto(float_x, float_y, can_i) {
     {
         return;
     }
-    if (photoPP[can_i].length == 0)
+    if (photoPP[can_i].length == 0)             //点到了空白的画布（什么图片都没有)
     {
         return;
     }
@@ -245,7 +307,12 @@ function floatPhoto(float_x, float_y, can_i) {
 
     //重叠数组最后一个即符合上述条件,将此图片移到总图片数组的最后面
     for (var i = photoPP[can_i].length - 1; i >= 0; i--) {
-        if (a == 0) return;    //点击空白处的操作
+        if (a == 0) {                                 //点击空白处的操作
+            /*将所有页中的选中状态取消*/
+            chooseFlag = 0;
+            deleteFlag = 0;
+            return;
+        }
         if ((photoPP[can_i][i][0] == photoLAP[a - 1][0]) && (photoPP[can_i][i][1] == photoLAP[a - 1][1]) && (photoPP[can_i][i][2] == photoLAP[a - 1][2]) && (photoPP[can_i][i][3] == photoLAP[a - 1][3]) && (photoPP[can_i][i][4] == photoLAP[a - 1][4]) && (photoPP[can_i][i][5] == photoLAP[a - 1][5]) && (photoPP[can_i][i][6] == photoLAP[a - 1][6]) && (photoPP[can_i][i][7] == photoLAP[a - 1][7])) {
             var temp = photoPP[can_i][i];
             for (var b = i; b < photoPP[can_i].length - 1; b++) {
@@ -256,8 +323,12 @@ function floatPhoto(float_x, float_y, can_i) {
         }
     }
 
+    photoPP_i = can_i;
     //重绘图片
-    redraw(can_i);
+    /*将所有页中的选中状态取消*/
+    chooseFlag = 1;
+    deleteFlag = 1;                //可以删除
+    redraw(can_i, canFlag);
 }
 
 /* 鼠标在画布上点击时*/
@@ -274,24 +345,41 @@ window.onmousedown = function (ev) {
     if (Ldown_x >= 0 && Ldown_x < 550 && Ldown_y >= 0 && Ldown_y < 700) {                                         //左边           
         bookPageNum1 = canNum1 / 2;
         bookPageNum3 = bookPageNum1;
-        if (bookPageNum3 == 0)                                      //点到了封面，什么都不做
+        if (bookPageNum3 == 0 || bookPageNum3 == -1)                                      //点到了封面或是书未打开而没点到书，什么都不做
         {
             return;
         }
         drag_x = e.pageX - document.getElementById('photoBook').offsetLeft;// - document.getElementById("bookPage" + bookPageNum1).offsetLeft;
         drag_y = e.pageY - document.getElementById('photoBook').offsetTop;// - document.getElementById("bookPage" + bookPageNum1).offsetTop;
         can_i = canNum1 - 1;
+        canFlag = can_i;
+        for (var m = 0; m < 7; m++)                                                                                                                                                                   //一共多少页还没定，目前当成7页
+        {
+            var n = m + 1;
+            can = document.getElementById('myCanvas' + n);
+            cvs = can.getContext("2d");
+            redraw(m, canFlag);
+        }
         can = document.getElementById('myCanvas' + canNum1);
         cvs = can.getContext("2d");
         operaFlag = 0;
     }
     else if (Ldown_x >= 550 && Ldown_x < 1100 && Ldown_y >= 0 && Ldown_y < 700) {                                  //右边
+        if (canNum1 == -2) return;                                     //书未打开
         bookPageNum2 = (canNum1 + 2) / 2;
         bookPageNum3 = bookPageNum2;
-        drag_x = e.pageX - document.getElementById('photoBook').offsetLeft - document.getElementById("bookPage" + bookPageNum2).offsetLeft;
-        drag_y = e.pageY - document.getElementById('photoBook').offsetTop - document.getElementById("bookPage" + bookPageNum2).offsetTop;
+        drag_x = e.pageX - document.getElementById('photoBook').offsetLeft - document.getElementById("bookPage" + bookPageNum3).offsetLeft;
+        drag_y = e.pageY - document.getElementById('photoBook').offsetTop - document.getElementById("bookPage" + bookPageNum3).offsetTop;
         canNum2 = canNum1 + 1;
         can_i = canNum2 - 1;
+        canFlag = can_i;
+        for (var m = 0; m < 7; m++)                                                                                                                                                                   //一共多少页还没定，目前当成7页
+        {
+            var n = m + 1;
+            can = document.getElementById('myCanvas' + n);
+            cvs = can.getContext("2d");
+            redraw(m, canFlag);
+        }
         can = document.getElementById('myCanvas' + canNum2);
         cvs = can.getContext("2d");
         operaFlag = 1;
@@ -337,11 +425,12 @@ function dragPhoto(drag_x, drag_y,can_i,bookPageNum3,operaFlag) {
             photoPP[can_i][photoPP[can_i].length - 1][5] = photoPP[can_i][photoPP[can_i].length - 1][1] + (photoPP[can_i][photoPP[can_i].length - 1][3] / 2);
             photoPP[can_i][photoPP[can_i].length - 1][6] = photoPP[can_i][photoPP[can_i].length - 1][2] + (photoPP[can_i][photoPP[can_i].length - 1][4] / 2);
             //清空重画
-            redraw(can_i);
+            redraw(can_i, canFlag);
         };
         window.onmouseup = function () {
             window.onmousemove = null;
             window.onmouseup = null;
+            chooseFlag = 0;
         };
     }
 }
@@ -359,6 +448,7 @@ function rotatePhoto(rotate_x, rotate_y, can_i, bookPageNum3,operaFlag) {      /
 
     if(Math.pow(tempX - handlerX,2) + Math.pow(tempY - handlerY,2) <= 25)
     {
+        chooseFlag = 1;
         var tempPPa = photoPP[can_i][photoPP[can_i].length - 1][7];
         window.onmousemove = function (ev) {
             var e = ev || event;
@@ -388,17 +478,18 @@ function rotatePhoto(rotate_x, rotate_y, can_i, bookPageNum3,operaFlag) {      /
                 photoPP[can_i][photoPP[can_i].length - 1][7] = tempAngle + tempPPa;
             }
             //清空重画
-            redraw(can_i);
+            redraw(can_i, canFlag);
         };
         window.onmouseup = function () {
             window.onmousemove = null;
             window.onmouseup = null;
+            chooseFlag = 0;
         };
     }
 }
 
 //canvas的重绘
-function redraw(can_i){
+function redraw(can_i,can_Flag){
     cvs.clearRect(0, 0, can.width, can.height);
     for (var i = 0; i < photoPP[can_i].length; i++)
 	{
@@ -412,7 +503,9 @@ function redraw(can_i){
 		cvs.restore();
 	}
     //为焦点图片绘制边框
-    borederRender(can_i);
+    if (can_i == can_Flag) {                   //如果是激活的页面，就根据情况画边框
+        borederRender(can_i, chooseFlag, deleteFlag);
+    }
 }
 
 /**
@@ -423,11 +516,11 @@ function redraw(can_i){
  * 把柄距上边40
  */
 
-function borederRender(can_i){
+function borederRender(can_i,chooseFlag,deleteFlag){
     //无图片则返回
     if (photoPP[can_i].length == 0) 
 		return;
-
+    if (chooseFlag == 0) return;            //是否被选中，不被选中则不画边框
 	cvs.save();
 	//考虑旋转,且设坐标轴原点在图片的左上角坐标处
     cvs.translate(photoPP[can_i][photoPP[can_i].length - 1][5], photoPP[can_i][photoPP[can_i].length - 1][6]);
@@ -523,6 +616,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
         (tempY >= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] / 2 - 4)) &&
         (tempY <= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] / 2 + 4)))
     {
+        chooseFlag = 1;
         var tempPPw = photoPP[can_i][photoPP[can_i].length - 1][3];
         window.onmousemove = function (ev) {
             var e = ev || event;
@@ -554,13 +648,14 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
 
             if (photoPP[can_i][photoPP[can_i].length - 1][3] > 20) {
-                redraw(can_i);
+                redraw(can_i, canFlag);
 	        }
     	}
 
         window.onmouseup = function () {
             window.onmousemove = null;
             window.onmouseup = null;
+            chooseFlag = 0;
 		};
 		return;
 	};       
@@ -570,7 +665,8 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 	    (tempX <=  (photoPP[can_i][photoPP[can_i].length - 1][1] + RECT_SIDE / 2)) && 
 	    (tempY >= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] / 2 - RECT_SIDE / 2)) &&
 	    (tempY <= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] / 2 + RECT_SIDE / 2)))
-	{
+    {
+        chooseFlag = 1;
 		var tempPPw = photoPP[can_i][photoPP[can_i].length - 1][3];
 		var tempPPdx = photoPP[can_i][photoPP[can_i].length - 1][1];
 		window.onmousemove = function (ev) {
@@ -599,12 +695,13 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 			photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
 			photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
 	        if (photoPP[can_i][photoPP[can_i].length - 1][3] > 20) {
-	        	redraw(can_i);
+                redraw(can_i, canFlag);
 	        }
         }
         window.onmouseup = function () {
             window.onmousemove = null;
             window.onmouseup = null;
+            chooseFlag = 0;
 	    };
 	    return;
 	};
@@ -615,6 +712,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
         (tempY >= (photoPP[can_i][photoPP[can_i].length - 1][2] - 4)) &&
         (tempY <= (photoPP[can_i][photoPP[can_i].length - 1][2] + 4)))
     {
+        chooseFlag = 1;
         var tempPPh = photoPP[can_i][photoPP[can_i].length - 1][4];
         var tempPPdy = photoPP[can_i][photoPP[can_i].length - 1][2];
         window.onmousemove = function (ev) {
@@ -640,12 +738,13 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
             photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
             if (photoPP[can_i][photoPP[can_i].length - 1][4] > 20) {
-                redraw(can_i);
+                redraw(can_i, canFlag);
             }
         };
         window.onmouseup = function () {
             window.onmousemove = null;
             window.onmouseup = null;
+            chooseFlag = 0;
         };
         return;
     }
@@ -656,6 +755,7 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
         (tempY >= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] - 4)) &&
         (tempY <= (photoPP[can_i][photoPP[can_i].length - 1][2] + photoPP[can_i][photoPP[can_i].length - 1][4] + 4)))
     {
+        chooseFlag = 1;
         var tempPPh = photoPP[can_i][photoPP[can_i].length - 1][4];
         window.onmousemove = function (ev) {
             var e = ev || event;
@@ -680,20 +780,23 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
             photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
             photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
             if (photoPP[can_i][photoPP[can_i].length - 1][4] > 20) {
-                redraw(can_i);
+                redraw(can_i, canFlag);
             }
             return;
     	};
         window.onmouseup = function () {
             window.onmousemove = null;
             window.onmouseup = null;
+            chooseFlag = 0;
         };
     }
 
 
     //左上角
-    if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1],2) + Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2],2) < Math.pow(CIRCLE_RADIUS,2)){
-    	window.onmousemove = function(ev){
+    if (Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1], 2) + Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2], 2) < Math.pow(CIRCLE_RADIUS, 2)) {
+        chooseFlag = 1;
+        window.onmousemove = function (ev) {
+            
     		var e = ev || event;
     		getMouseLocation(e);
     		var nowX;
@@ -733,19 +836,22 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 
     		photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
 			photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
-			redraw(can_i);
+            redraw(can_i, canFlag);
     	}
 
         window.onmouseup = function () {
         	window.onmousemove = null;
-        	window.onmouseup = null;
+            window.onmouseup = null;
+            chooseFlag = 0;
         };
     	return;
     }
 
     //左下角
-    if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1],2) + Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2] - photoPP[can_i][photoPP[can_i].length - 1][4],2) < Math.pow(CIRCLE_RADIUS,2)){
-    	window.onmousemove = function(ev){
+    if (Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1], 2) + Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2] - photoPP[can_i][photoPP[can_i].length - 1][4], 2) < Math.pow(CIRCLE_RADIUS, 2)) {
+        chooseFlag = 1;
+        window.onmousemove = function (ev) {
+            
     		var e = ev || event;
     		getMouseLocation(e);
     		var nowX;
@@ -784,17 +890,19 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 
 			photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
 			photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
-			redraw(can_i);
+            redraw(can_i, canFlag);
     	}
     	window.onmouseup = function () {
         	window.onmousemove = null;
-        	window.onmouseup = null;
+            window.onmouseup = null;
+            chooseFlag = 0;
         };
     	return;
     }
 
     //右上角
-    if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1] - photoPP[can_i][photoPP[can_i].length - 1][3],2) + Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2],2) < Math.pow(CIRCLE_RADIUS,2)){
+    if (Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1] - photoPP[can_i][photoPP[can_i].length - 1][3], 2) + Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2], 2) < Math.pow(CIRCLE_RADIUS, 2)) {
+        chooseFlag = 1;
     	window.onmousemove = function(ev){
     		var e = ev || event;
     		getMouseLocation(e);
@@ -834,19 +942,21 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 			
 			photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
 			photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
-			redraw(can_i);
+            redraw(can_i, canFlag);
             
     	}
     	window.onmouseup = function () {
         	window.onmousemove = null;
-        	window.onmouseup = null;
+            window.onmouseup = null;
+            chooseFlag = 0;
         };
     	return;
     }
 
     //右下角
     if(Math.pow(tempX - photoPP[can_i][photoPP[can_i].length - 1][1] - photoPP[can_i][photoPP[can_i].length - 1][3],2) + 
-    	Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2] - photoPP[can_i][photoPP[can_i].length - 1][4],2) < Math.pow(CIRCLE_RADIUS,2)){
+        Math.pow(tempY - photoPP[can_i][photoPP[can_i].length - 1][2] - photoPP[can_i][photoPP[can_i].length - 1][4], 2) < Math.pow(CIRCLE_RADIUS, 2)) {
+        chooseFlag = 1;
     	window.onmousemove = function(ev){
     		var e = ev || event;
     		var nowX;
@@ -885,11 +995,12 @@ function scalePhoto(scale_x, scale_y,can_i,bookPageNum3,operaFlag) {
 
 			photoPP[can_i][photoPP[can_i].length - 1][1] = photoPP[can_i][photoPP[can_i].length - 1][5] - photoPP[can_i][photoPP[can_i].length - 1][3] / 2;
 			photoPP[can_i][photoPP[can_i].length - 1][2] = photoPP[can_i][photoPP[can_i].length - 1][6] - photoPP[can_i][photoPP[can_i].length - 1][4] / 2;
-			redraw(can_i);
+            redraw(can_i, canFlag);
     	}
     	window.onmouseup = function () {
         	window.onmousemove = null;
-        	window.onmouseup = null;
+            window.onmouseup = null;
+            chooseFlag = 0;
         };
     	return;
     }

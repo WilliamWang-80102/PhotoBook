@@ -13,37 +13,46 @@
     <script type="text/javascript">
         $(function () {
             var arr1 = new Array();
-            for (var i = 0; i < 5; i++){
+            for (var i = 0; i < 5; i++) {
                 var temp = new Array();
-                for(var j = 0 ; j < 5 ;j++){
+                for (var j = 0; j < 5; j++) {
                     temp.push(j);
                 }
                 arr1.push(temp);
             }
+            var jsonArr = JSON.stringify(arr1);
             $('.myAjax').click(function () {
+
+                var book_id = prompt("请输入你的书本名称:","");
+                if("" == book_id){
+                    alert("书本名不能为空");
+                    return;
+                }
                 $.ajax({
-                    type:"POST", //请求方式
-                    url:"/SaveServlet", //请求路径
+                    type: "POST", //请求方式
+                    url: "SaveServlet", //请求路径
                     cache: false,
-                    data:{//传参
-                        "photobook":arr1,
+                    data: {//传参
+                        "photobook": jsonArr,
+                        "book_id": book_id,
+                        
                     },
-                    tradition: true,
                     dataType: 'json',   //返回值类型
-                    success:function(){
+                    success: function () {
                         alert("success!");    //弹出返回过来的List对象
                     },
-                    error:function () {
-                        alert("failure!");
-                    }
-                });
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    },
+                })
             })
-            })
-
+        })
     </script>
 </head>
 <body>
-    <button class="myAjax"></button>
+    <button class="myAjax">Fuck</button>
 </body>
 </html>
 

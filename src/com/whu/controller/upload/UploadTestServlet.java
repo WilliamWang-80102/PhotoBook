@@ -11,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.whu.database.DBConnection;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -40,8 +42,8 @@ public class UploadTestServlet extends HttpServlet {
         // Servlet上下文对象
         ServletContext servletContext = this.getServletConfig().getServletContext();
         // tomcat的项目路径
-        String realPath = servletContext.getRealPath(UPLOAD_DIR)+"/";
-        String tempPath = servletContext.getRealPath(TEMP_UPLOAD_DIR)+"/";
+        String realPath = servletContext.getRealPath(UPLOAD_DIR);
+        String tempPath = servletContext.getRealPath(TEMP_UPLOAD_DIR);
         File tempPathFile = new File(tempPath);
         File realPathFile = new File(realPath);
         if (!tempPathFile.exists()) {
@@ -77,14 +79,24 @@ public class UploadTestServlet extends HttpServlet {
                     System.out.println("UploadTestServlet file path:"+UPLOAD_DIR+fileName);
                     //判断空
                     if (fileName!=null && !"".equals(fileName)) {
+                        String id=(String)request.getSession().getAttribute("id");//得到当前登录用户的id
+                        String imgPath = realPath + id + "/temp/";
+
+                        File imgDir = new File(imgPath);
+                        if (!imgDir.exists()) {
+                            imgDir.mkdirs();
+                        }
                         //将文件写到硬盘
-                        item.write(new File(realPath+fileName));
+                        item.write(new File(imgPath + fileName));
                         //将图片地址保存到request中，再转发回给jsp
                         //UPLOAD_DIR+fileName这个是相对路径，给前端页面
                         //realPath+fileName是绝对路径s
                         //request.setAttribute("path", UPLOAD_DIR+fileName);
                         //request.getRequestDispatcher("/UploadTest.jsp").forward(request, response);
-                        //out.write("ok");
+                        //存入数据库
+                        DBConnection.save2Temp(id,UPLOAD_DIR  + id + "/temp/" +fileName);
+                        out.write("ok");
+                        //DBConnection.removeTemp(id);
                     }
                 }
             }
