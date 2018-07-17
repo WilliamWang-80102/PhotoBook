@@ -27,17 +27,33 @@
     height: 700px;
     position: relative;
     top:60px;
-    left:-150px;
+    left:0;
     //margin: 30px auto;
     -webkit-perspective-origin: 50% 60%;
     perspective-origin: 50% 60%;
     -webkit-perspective: 2000px;
     perspective: 2000px;
-    /*background: url(bookBg.jpg) no-repeat 0 0;
-    background-size: 100% 100%;*/
+    background: url(bookBg.png) no-repeat 0 0;
+    background-size: 100% 100%;
 }
 
 .bookPage {
+    position: absolute;
+    width: 527.19px;
+    height: 676.76px;
+    top: 11.62px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: all linear 2s;
+    -moz-transition: all linear 2s;
+    -ms-transition: all linear 2s;
+    -o-transition: all linear 2s;
+    transition: all linear 2s;
+}
+.bookCover {
     position: absolute;
     width: 550px;
     height: 700px;
@@ -54,16 +70,23 @@
     transition: all linear 2s;
 }
 
-    .bookPage .bookContent {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 550px;
-        height: 700px;
-        background: url(bookRight.jpg) no-repeat;
-        background-size: 100% 100%;
-        //background-position: 20.74px 8.3px;
-    }
+.bookPage .bookContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 527.19px;
+    height: 676.76px;
+    background: url(bookRight.jpg) no-repeat;
+    background-size: 100% 100%;
+    //background-position: 0px 11.62px;
+}
+.bookCover .bookContent{
+    position:absolute;
+    top:0;
+    left:0;
+    width:550px;
+    height:700px;
+}
 
 /*.frist {
     left: 0;
@@ -74,13 +97,13 @@
         z-index: 1;
     }*/
 
-.last {
-    right: 0;
+/*.last {
+    left:550px;
     z-index: 1;
-}
+}*/
 
 .runPage {
-    right: 0;
+    left:550px;
     -webkit-transform-origin: 0 0;
     -moz-transform-origin: 0 0;
     -ms-transform-origin: 0 0;
@@ -98,12 +121,15 @@
     transform: rotateY(-180deg);
 }
 
-.lastBtn, .nextBtn {
+.photoBook:hover .nextBtn {
+    display: block;
+}
+ .nextBtn {
     //display: none;
     position: absolute;
     top: 300px;
     cursor: pointer;
-    z-index: 999;
+    z-index: 4000000;
     font-size: 50px;
     line-height: 100px;
     color: #fff;
@@ -112,12 +138,25 @@
 }
 
 .lastBtn {
+    display:none;
+    position: absolute;
+    top: 300px;
+    cursor: pointer;
+    z-index: 4000000;
+    font-size: 50px;
+    line-height: 100px;
+    color: #fff;
+    text-decoration: none;
+    background-color: rgba(0,0,0,.5);
+}
+.lastBtn {
     left: 0;
 }
 
 .nextBtn {
     right: 0;
 }
+
 
 
 

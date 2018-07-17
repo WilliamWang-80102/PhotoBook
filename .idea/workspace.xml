@@ -6,127 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7dac83e-d55f-469a-ae2f-3e780d2eec2f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/whu/entity/Photo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_fileupload_1_2_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhotoBook.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoBook.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/Test.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/Test.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/controller/SaveServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/controller/SaveServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/controller/download/FileDownLoadServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/controller/upload/FileUpLoadServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/database/DBConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/database/DBConnection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/database/List2DataBase.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/database/User2DataBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/database/User2DataBase.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/entity/PhotoBook.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/entity/PhotoBook.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/WEB-INF/classes/com/whu/img/Image2Byte.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/lpj_test/book.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/lpj_test/book.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/lpj_test/bookTurn.js" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/lpj_test/bookTurn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/lpj_test/jquery-3.3.1.js" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/lpj_test/jquery-3.3.1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/lpj_test/mainBoard.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/lpj_test/mainBoard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/lpj_test/mainBoard.js" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/lpj_test/mainBoard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/css/index_mystyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/css/index_mystyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/css/pic_mystyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/css/pic_mystyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/index2.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/index2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/index3.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/js/new.js" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/test/js/new.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/css/index_mystyle.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/css/pic_mystyle.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/1.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/3.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/4.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/5.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/7.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/8.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/Feb.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/Jan.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/Mar.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/a.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/add.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/b.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/background.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/img/rec.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/index2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/js/content.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/js/cover.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/js/new.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/PhotoBook_war_exploded/webpage_test/js/pre.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/controller/SaveServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/controller/SaveServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/controller/download/FileDownLoadServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/controller/upload/FileUpLoadServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/database/DBConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/database/DBConnection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/database/List2DataBase.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/database/User2DataBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/database/User2DataBase.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/entity/PhotoBook.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/entity/PhotoBook.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PhotoBook/com/whu/img/Image2Byte.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/whu/controller/SaveServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/whu/controller/SaveServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/whu/controller/download/FileDownLoadServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/whu/controller/upload/FileUpLoadServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/whu/controller/upload/UploadTestServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/whu/controller/upload/UploadTestServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/whu/database/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/whu/database/DBConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/whu/database/List2DataBase.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/whu/database/User2DataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/whu/database/User2DataBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/whu/entity/PhotoBook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/whu/entity/PhotoBook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/whu/entity/login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/whu/entity/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/whu/img/Image2Byte.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/DB2Web.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/Test.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/Test.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/Uploader.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/Uploader.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/lpj_test/book.css" beforeDir="false" afterPath="$PROJECT_DIR$/web/lpj_test/book.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/lpj_test/bookTurn.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/lpj_test/bookTurn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/lpj_test/jquery-3.3.1.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/lpj_test/jquery-3.3.1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/lpj_test/mainBoard.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/lpj_test/mainBoard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/lpj_test/mainBoard.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/lpj_test/mainBoard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/css/amazeui.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/css/index_mystyle.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/css/pic_mystyle.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/css/pic_mystyle_origin.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/css/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/1.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/3.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/4.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/5.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/7.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/8.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/Feb.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/IMG_1180.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/IMG_2347.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/IMG_3973.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/IMG_4246.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/Jan.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/Mar.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/a.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/add.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/b.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/background.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/background1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/img/rec.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/index2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/index3.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/js/check.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/js/content.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/js/cover.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/js/new.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/js/pre.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/loginpage.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webpage_test/registerpage.html" beforeDir="false" />
-    </list>
+    <list default="true" id="e7dac83e-d55f-469a-ae2f-3e780d2eec2f" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -218,11 +98,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.jsp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="19" column="7" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+            <state relative-caret-position="-189">
+              <caret line="2" column="15" lean-forward="true" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mainBoard.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/lpj_test/mainBoard.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="952">
+              <caret line="245" column="31" selection-start-line="245" selection-start-column="31" selection-end-line="245" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mainBoard.jsp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/lpj_test/mainBoard.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2075">
+              <caret line="266" column="27" lean-forward="true" selection-start-line="266" selection-start-column="27" selection-end-line="266" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -230,7 +128,7 @@
       <file leaf-file-name="Uploader.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/Uploader.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
+            <state relative-caret-position="1076">
               <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
             </state>
           </provider>
@@ -286,6 +184,7 @@
         <option value="$PROJECT_DIR$/src/com/whu/controller/upload/UploadTestServlet.java" />
         <option value="$PROJECT_DIR$/web/Uploader.jsp" />
         <option value="$PROJECT_DIR$/src/com/whu/database/Photo2Database.java" />
+        <option value="$PROJECT_DIR$/web/lpj_test/mainBoard.jsp" />
       </list>
     </option>
   </component>
@@ -437,6 +336,12 @@
               <item name="PhotoBook" type="b2602c69:ProjectViewProjectNode" />
               <item name="PhotoBook" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PhotoBook" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PhotoBook" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="lpj_test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PhotoBook" type="b2602c69:ProjectViewProjectNode" />
@@ -966,15 +871,16 @@
       <workItem from="1531548908927" duration="12231000" />
       <workItem from="1531643961256" duration="1512000" />
       <workItem from="1531653841292" duration="16772000" />
-      <workItem from="1531789724672" duration="25079000" />
+      <workItem from="1531789724672" duration="25408000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="85574000" />
+    <option name="totallyTimeSpent" value="85903000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1050" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="9" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5015625" side_tool="true" weight="0.4" />
@@ -997,9 +903,9 @@
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49895832" weight="0.32765958" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21666667" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21666667" />
       <window_info id="Web" order="7" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32978722" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32978722" />
       <window_info id="Learn" order="6" />
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info id="Favorites" order="5" side_tool="true" />
@@ -1083,13 +989,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/index.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="12" column="8" lean-forward="true" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/whu/database/List2DataBase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1282,13 +1181,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/lpj_test/mainBoard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="15" lean-forward="true" selection-start-column="15" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/whu/controller/SaveServlet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
@@ -1407,13 +1299,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/Uploader.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/whu/database/Photo2Database.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
@@ -1436,10 +1321,31 @@
         <state relative-caret-position="-2664" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web/Uploader.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1076">
+          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="19" column="7" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+        <state relative-caret-position="-189">
+          <caret line="2" column="15" lean-forward="true" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/lpj_test/mainBoard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="952">
+          <caret line="245" column="31" selection-start-line="245" selection-start-column="31" selection-end-line="245" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/lpj_test/mainBoard.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2075">
+          <caret line="266" column="27" lean-forward="true" selection-start-line="266" selection-start-column="27" selection-end-line="266" selection-end-column="27" />
         </state>
       </provider>
     </entry>
