@@ -4,15 +4,6 @@
                                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
                                 version="4.0">
     <servlet>
-        <servlet-name>FileUpLoadServlet</servlet-name>
-        <servlet-class>com.whu.controller.upload.FileUpLoadServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FileUpLoadServlet</servlet-name>
-        <url-pattern>/FileUpLoadServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>FileDownLoadServlet</servlet-name>
         <servlet-class>com.whu.controller.download.FileDownLoadServlet</servlet-class>
     </servlet>
@@ -55,5 +46,14 @@
     <servlet-mapping>
         <servlet-name>SaveServlet</servlet-name>
         <url-pattern>/SaveServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ModuleServlet</servlet-name>
+        <servlet-class>com.whu.controller.ModuleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModuleServlet</servlet-name>
+        <url-pattern>/ModuleServlet</url-pattern>
     </servlet-mapping>
 </web-app>

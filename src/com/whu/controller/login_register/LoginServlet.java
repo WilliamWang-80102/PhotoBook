@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import javax.script.*;
 
 
-public class LoginServlet {
+public class LoginServlet extends HttpServlet {
     private static String errorMessige = null;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,17 +35,18 @@ public class LoginServlet {
                 message = "此账号未注册";
                 request.setAttribute("message", message);
               //  request.getRequestDispatcher("/Login.jsp").forward(request, response);
-                response.sendRedirect("/Login.jsp");
+                response.sendRedirect("/test/Login.jsp");
             } //判断密码是否正确
             else if (password.equals(password_DB)) {
                 //登录成功之后跳转到目标界面
               //  request.getRequestDispatcher("/index.jsp").forward(request, response);
-                response.sendRedirect("/index.jsp");
+                request.getSession().setAttribute("id",id);
+                response.sendRedirect("welcome.jsp");
             } else {
                 message = "密码输入错误";
                 request.setAttribute("message", message);
               //  request.getRequestDispatcher("/Login.jsp").forward(request, response);
-                response.sendRedirect("/Login.jsp");
+                response.sendRedirect("/test/Login.jsp");
             }
         } catch (Throwable t) {
             t.printStackTrace();
