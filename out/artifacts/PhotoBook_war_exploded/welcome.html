@@ -1,0 +1,403 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>PhotoBook</title>
+    <style type="text/css">
+        .box:before {
+            content: "";
+            width: 0;
+            height: 100%;
+            background: #000;
+            padding: 14px 18px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            opacity: 0;
+            transition: all 500ms cubic-bezier(0.47, 0, 0.745, 0.715) 0s;
+        }
+        .box:hover:before {
+            width: 100%;
+            left: 0;
+            opacity: 0.5;
+        }
+        #thumbnail .box-Content {
+            width: 100%;
+            height:100%;
+            //padding: 14px 18px;
+            color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #thumbnail .title {
+            font-size: 50px;
+            font-weight: 600;
+            line-height: 300px;
+            text-transform: uppercase;
+            text-align:center;
+            margin: 0;
+            opacity: 0;
+            transition: all 0.5s ease 0s;
+        }
+        #thumbnail:hover .title {
+            opacity: 1;
+            transition-delay: 0.7s;
+        }
+        .bookPage {
+            position: absolute;
+            width: 527.19px;
+            height: 676.76px;
+            top: 11.62px;
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            -ms-transform-style: preserve-3d;
+            -o-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            -webkit-transition: all linear 2s;
+            -moz-transition: all linear 2s;
+            -ms-transition: all linear 2s;
+            -o-transition: all linear 2s;
+            transition: all linear 2s;
+        }
+
+        .bookCover {
+            position: absolute;
+            width: 550px;
+            height: 700px;
+            top: 0;
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            -ms-transform-style: preserve-3d;
+            -o-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            -webkit-transition: all linear 2s;
+            -moz-transition: all linear 2s;
+            -ms-transition: all linear 2s;
+            -o-transition: all linear 2s;
+            transition: all linear 2s;
+        }
+
+        .bookPage .bookContent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 527.19px;
+            height: 676.76px;
+            background: url(img/bookRight.jpg) no-repeat;
+            background-size: 100% 100%;
+            //background-position: 0px 11.62px;
+        }
+
+        .bookCover .bookContent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 550px;
+            height: 700px;
+        }
+
+        .runPage {
+            left: 550px;
+            -webkit-transform-origin: 0 0;
+            -moz-transform-origin: 0 0;
+            -ms-transform-origin: 0 0;
+            -o-transform-origin: 0 0;
+            transform-origin: 0 0;
+        }
+
+
+
+        .runClass {
+            -webkit-transform: rotateY(-180deg);
+            -moz-transform: rotateY(-180deg);
+            -ms-transform: rotateY(-180deg);
+            -o-transform: rotateY(-180deg);
+            transform: rotateY(-180deg);
+        }
+
+        .afterBtn {
+            //display: none;
+            position: absolute;
+            top: 300px;
+            cursor: pointer;
+            z-index: 4000000;
+            font-size: 50px;
+            line-height: 100px;
+            color: #fff;
+            text-decoration: none;
+            background-color: rgba(0,0,0,.5);
+        }
+        .beforeBtn {
+            display: none;
+            position: absolute;
+            top: 300px;
+            cursor: pointer;
+            z-index: 4000000;
+            font-size: 50px;
+            line-height: 100px;
+            color: #fff;
+            text-decoration: none;
+            background-color: rgba(0,0,0,.5);
+        }
+        .beforeBtn {
+            left: 0;
+        }
+
+        .afterBtn {
+            right: 0;
+        }
+        .beforeBtn:hover,.afterBtn:hover{
+            text-decoration:none;
+        }
+
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="css/pic_mystyle.css">
+    <link rel="stylesheet" type="text/css" href="css/index_mystyle.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-grid.min.css" />
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/skimPhotoBook.js"></script>
+    <!--<script src="js/new.js" type="text/javascript" charset="utf-8"></script>-->
+    <script>
+        function myFun(sId) {
+            //numbe = sId;
+            document.getElementById('pBook' + sId).getElementsByClassName("beforeBtn")[0].classList.add("bBtn" + sId);
+            document.getElementById('pBook' + sId).getElementsByClassName("afterBtn")[0].classList.add("aBtn" + sId);
+            var newArr = document.getElementById('pBook' + sId).getElementsByClassName("runPage");
+            for (var i = 0; i < newArr.length; i++)
+            {
+                newArr[i].classList.add("rPage" + sId);
+            }
+            
+        }
+    </script>
+</head>
+
+<body background="img/background.jpg">
+	<div class="rgba">
+    <div id="header">
+        <div class="header_warpper">
+            <a href="javascript:;" class="ft_black home"><font size=5 color="white">PhotoBook</font></a>
+            <ul class="header_top">
+                <li><a href="registerpage.html" class="register has_right_line"><font size=3 color="white">注册</font></a></li>
+                <li><a href="loginpage.html" class="signin has_right_line"><font size=3 color="white">登录</font></a></li>
+                <li><a href="welcome.html" class="photobook has_right_line"><font size=3 color="white">照片书</font></a></li>
+                <li>
+                	<div class="dropdown">
+                		<button class ="dropbtn">
+                			<div class="custom_center has_right_line">
+                				<font size=3 color="white">
+                					个人中心
+                				</font>
+                			</div>
+                		</button>
+                		<div class="dropdown-content">
+                			<a href="javascript:;">个人信息</a>
+                			<a href="javascript:;">修改资料</a>
+                			<a href="javascript:;">我的好友</a>
+                		</div>
+                	</div>
+                </li>
+             </ul>
+         </div>
+    </div>
+    
+        <div style="position:absolute; height:800px; overflow:auto">
+            
+                
+                    <div class="display">
+
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="thumbnail">
+                                    <img src="img/add.png" width="280" alt="..." />
+                                    <div class="caption">
+                                        <a href="index3.html"><button class="btn btn-primary">创建新相册</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="thumbnail" id="thumbnail">
+                                    <a class="box" id="1" href="#photoBook1" onclick="myFun(this.id)">
+                                        <img src="img/Macau.JPG" alt="..." />
+                                        <div class="box-Content">
+                                            <h4 class="title">点我浏览</h4>
+                                        </div>
+                                    </a>
+                                    <div class="caption">
+                                        <h3>澳门</h3>
+                                        <p>旅行日记</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="thumbnail" id="thumbnail">
+                                    <a class="box" id="2" href="#photoBook2" onclick="myFun(this.id)">
+                                        <img src="img/Japan.JPG" alt="..." />
+                                        <div class="box-Content">
+                                            <h4 class="title">点我浏览</h4>
+                                        </div>
+                                    </a>
+                                    <div class="caption">
+                                        <h3>日本</h3>
+                                        <p>旅行日记</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="thumbnail" id="thumbnail">
+                                    <a class="box" id="3" href="#photoBook3" onclick="myFun(this.id)">
+                                        <img src="img/WHU.JPG" alt="..." />
+                                        <div class="box-Content">
+                                            <h4 class="title">点我浏览</h4>
+                                        </div>
+                                    </a>
+                                    <div class="caption">
+                                        <h3>校园</h3>
+                                        <p>青春纪念册</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="thumbnail" id="thumbnail">
+                                    <a class="box" id="4" href="#photoBook4" onclick="myFun(this.id)">
+                                        <img src="img/Food.JPG" alt="..." />
+                                        <div class="box-Content">
+                                            <h4 class="title">点我浏览</h4>
+                                        </div>
+                                    </a>
+                                    <div class="caption">
+                                        <h3>美食</h3>
+                                        <p>舌尖盛宴</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="hidden-images-wrapper">
+                        <div id="photoBook1">
+                            <div class="photoBook-1" id="pBook1" onclick="tranLocation(this.id)">
+                                <a class="beforeBtn bBtn1"><</a>
+                                <a class="afterBtn aBtn1">></a>
+
+                                <div class="bookCover runPage rPage1">
+                                    <div id="bookContentF" class="bookContent">
+                                        <img src="img/cover.jpg" />
+                                    </div>
+                                    <div id="bookContentB" class="bookContent">
+                                        <img src="img/cover.jpg" />
+                                    </div>
+                                </div>
+
+                                <div class="bookPage runPage rPage1" id="bookPage1">
+                                    <div id="bookContent1" class="bookContent">
+                                        <canvas id="myCanvas1" height="677" width="527"></canvas>
+                                    </div>
+                                    <div id="bookContent2" class="bookContent">
+                                        <canvas id="myCanvas2" height="677" width="527"></canvas>
+                                    </div>
+
+                                </div>
+
+                                <div class="bookPage runPage rPage1" id="bookPage2">
+                                    <div id="bookContent3" class="bookContent">
+                                        <canvas id="myCanvas3" height="677" width="527"></canvas>
+                                    </div>
+                                    <div id="bookContent4" class="bookContent">
+                                        <canvas id="myCanvas4" height="677" width="527"></canvas>
+                                    </div>
+                                </div>
+
+                                <div class="bookPage runPage rPage1" id="bookPage3">
+                                    <div id="bookContent5" class="bookContent">
+                                        <canvas id="myCanvas5" height="677" width="527"></canvas>
+                                    </div>
+                                    <div id="bookContent6" class="bookContent">
+                                        <canvas id="myCanvas6" height="677" width="527"></canvas>
+                                    </div>
+                                </div>
+
+                                <div class="bookPage runPage rPage1" id="bookPage4">
+                                    <div id="bookContent7" class="bookContent">
+                                        <canvas id="myCanvas7" height="677" width="527"></canvas>
+                                    </div>
+                                    <div id="bookContent8" class="bookContent">
+                                        <canvas id="myCanvas8" height="677" width="527"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="img-close" href="#"></a>
+                        </div>
+
+                        <div id="photoBook2">
+                            <div class="photoBook-1" id="pBook2">
+                                <a class="beforeBtn bBtn2"><</a>
+                                <a class="afterBtn aBtn2">></a>
+
+                                <div class="bookCover runPage rPage2">
+                                    <div id="bookContentF" class="bookContent">
+                                        <img src="img/cover.jpg" />
+                                    </div>
+                                    <div id="bookContentB" class="bookContent">
+                                        <img src="img/cover.jpg" />
+                                    </div>
+                                </div>
+
+                                <div class="bookPage runPage rPage2" id="bookPage1">
+                                    <div id="bookContent1" class="bookContent">
+                                        <canvas id="myCanvas1" height="677" width="527"></canvas>
+                                    </div>
+                                    <div id="bookContent2" class="bookContent">
+                                        <canvas id="myCanvas2" height="677" width="527"></canvas>
+                                    </div>
+
+                                </div>
+
+                                <div class="bookPage runPage  rPage2" id="bookPage2">
+                                    <div id="bookContent3" class="bookContent">
+                                        <canvas id="myCanvas3" height="677" width="527"></canvas>
+                                    </div>
+                                    <div id="bookContent4" class="bookContent">
+                                        <canvas id="myCanvas4" height="677" width="527"></canvas>
+                                    </div>
+                                </div>
+
+                                <div class="bookPage runPage rPage2" id="bookPage3">
+                                    <div id="bookContent5" class="bookContent">
+                                        <canvas id="myCanvas5" height="677" width="527"></canvas>
+                                    </div>
+                                    <div id="bookContent6" class="bookContent">
+                                        <canvas id="myCanvas6" height="677" width="527"></canvas>
+                                    </div>
+                                </div>
+
+                                <div class="bookPage runPage rPage2" id="bookPage4">
+                                    <div id="bookContent7" class="bookContent">
+                                        <canvas id="myCanvas7" height="677" width="527"></canvas>
+                                    </div>
+                                    <div id="bookContent8" class="bookContent">
+                                        <canvas id="myCanvas8" height="677" width="527"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="img-close" href="#"></a>
+                        </div>
+
+                    </div>
+
+                    
+                
+                </div>
+            </div>
+
+           </body>
+</html>

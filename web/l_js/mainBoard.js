@@ -34,35 +34,27 @@ const MIN_LENGTH = 20;
 
 $('.save').click(function () {
     //背景
-    var background = window.getComputedStyle(document.getElementById("bookContentF")).backgroundImage;
+    var background = window.getComputedStyle(document.getElementById("bookContent1")).backgroundImage;
     //书名
     var book_id = prompt("请输入照片书名：");
     var jsonArr = JSON.stringify(photoPP);
     //封面
     var cover = document.getElementById("bookContentF").getElementsByTagName("img")[0].src;
 
+    document.getElementById("myBook_id").value = book_id;
+    document.getElementById("myPhotobook").value = jsonArr;
+    /*
+    $.post('/SaveServlet',
+        {
+            background: background,
+            cover: cover,
+            book_id: book_id,
+            photobook: jsonArr,
+        }
+        , "json");
+    */
+    });
 
-    $.ajax({
-        type: "POST", //请求方式
-        url: "/SaveServlet", //请求路径
-        cache: false,
-        data: {//传参
-            "photobook": jsonArr,
-            "book_id":book_id,
-            "cover":cover,
-            "background":background,
-        },
-        dataType: 'json',   //返回值类型
-        success: function () {
-            alert("success!");    //弹出返回过来的List对象
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        },
-    })
-})
 
 
 window.onload = function(){

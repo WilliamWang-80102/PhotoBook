@@ -56,4 +56,13 @@
         <servlet-name>ModuleServlet</servlet-name>
         <url-pattern>/ModuleServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ModulDownLoadServlet</servlet-name>
+        <servlet-class>com.whu.controller.ModulDownLoadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModulDownLoadServlet</servlet-name>
+        <url-pattern>/ModulDownLoadServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -31,11 +31,12 @@ public class LoginServlet extends HttpServlet {
 
         try {
             //判断账号是否已注册
-            if (("0").equals(User2DataBase.select(id))) {
+            if ((0)==(User2DataBase.test(id))) {
                 message = "此账号未注册";
-                request.setAttribute("message", message);
+                request.getSession().setAttribute("message",message);
+              //  request.setAttribute("message", message);
               //  request.getRequestDispatcher("/Login.jsp").forward(request, response);
-                response.sendRedirect("/test/Login.jsp");
+                response.sendRedirect("Login.jsp");
             } //判断密码是否正确
             else if (password.equals(password_DB)) {
                 //登录成功之后跳转到目标界面
@@ -44,9 +45,10 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("welcome.jsp");
             } else {
                 message = "密码输入错误";
-                request.setAttribute("message", message);
+                request.getSession().setAttribute("message",message);
+              //  request.setAttribute("message", message);
               //  request.getRequestDispatcher("/Login.jsp").forward(request, response);
-                response.sendRedirect("/test/Login.jsp");
+                response.sendRedirect("Login.jsp");
             }
         } catch (Throwable t) {
             t.printStackTrace();

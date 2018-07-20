@@ -32,19 +32,92 @@
     <script type="text/javascript" src="utils/webuploader/webuploader.min.js"></script>
     <script type="text/javascript" src="utils/webuploader/webuploader.js"></script>
 
+    <!--前端实现-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>PhotoBook</title>
+    <link rel="stylesheet" type="text/css" href="css/pic_mystyle.css">
+    <link rel="stylesheet" type="text/css" href="css/index_mystyle.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/new.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        function myFun(sId) {
+            var oImg = document.getElementsByTagName('img');
+
+            for (var i = 0; i < oImg.length; i++) {
+                if (oImg[i].id == sId) {
+                    oImg[i].previousSibling.previousSibling.checked = true;
+                    oImg[i].style.border = '8px solid #4682B4';
+                } else {
+                    oImg[i].style.border = '0px solid #008800';
+
+                }
+            }
+        }
+    </script>
+
 </head>
-<body>
+
+<body background="img/background.jpg">
+<div class="rgba">
+
+    <div id="header">
+        <div class="header_warpper">
+            <a href="javascript:;" class="ft_black home"><font size=5 color="white">PhotoBook</font></a>
+            <ul class="header_top">
+                <li><a href="registerpage.html" class="register has_right_line"><font size=3 color="white">注册</font></a></li>
+                <li><a href="loginpage.html" class="signin has_right_line"><font size=3 color="white">登录</font></a></li>
+                <li><a href="welcome.html" class="photobook has_right_line"><font size=3 color="white">照片书</font></a></li>
+                <li>
+                    <div class="dropdown">
+                        <button class ="dropbtn">
+                            <div class="custom_center has_right_line">
+                                <font size=3 color="white">
+                                    个人中心
+                                </font>
+                            </div>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="javascript:;">个人信息</a>
+                            <a href="javascript:;">修改资料</a>
+                            <a href="javascript:;">我的好友</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="overflow:scroll;width:400px;height:400px;">
 <div id="uploader" class="wu-example" >
     <!--用来存放文件信息-->
     <div id="thelist" class="uploader-list"></div>
     <div class="btns">
-        <div id="picker">选择文件</div>
-        <button id="ctlBtn" class="btn btn-default">开始上传</button>
+        <div class="subbg">
+            <img src="img/rec.png" height="500" width="1000" align="middle">
+        </div>
+        <div class="addbtn">
+            <div align="center">
+            <img src="img/upload.png" height="200" width="200" >
+            </div>
+        <div id="picker" align="center" style="margin-top: 30px">
+            <h4>上传照片</h4>
+        </div>
 
+        <div align="center" style="margin-top: 10px">
+            <button id="ctlBtn" class="btn btn-default">开始上传</button>
+        </div>
+            <div align="center" style="margin-top:10px">
         <form name="file" action="/FileDownLoadServlet" method="GET">
-            <input type="button" value="go to mainboard" onclick="submit()">
+            <button class="btn btn-default" type="submit">go to mainboard</button>
         </form>
+            </div>
+        </div>
     </div>
+</div>
+</div>
 </div>
 </body>
 
@@ -88,10 +161,10 @@
         // 当有文件添加进来的时候
         uploader.on( 'fileQueued', function( file ) {
             var $li = $(
-                '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<div style="position:absolute;margin-left:400px;margin-top:225px;z-index:3"><div id="' + file.id + '" class="file-item thumbnail">' +
                 '<img>' +
                 '<div class="info">' + file.name + '</div>' +
-                '</div>'
+                '</div></div>'
                 ),
                 $img = $li.find('img');
 

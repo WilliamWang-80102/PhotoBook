@@ -1,4 +1,4 @@
-html,body{
+﻿html,body{
   height: 100%;
   margin: 0;
   padding: 0;
@@ -58,7 +58,7 @@ html,body{
   opacity: 1;
   pointer-events: auto;
 }
-.hidden-images-wrapper img{
+/*.hidden-images-wrapper img{
   display: block;
   position: absolute;
   z-index: 3;
@@ -76,11 +76,40 @@ html,body{
   border-radius: 5px;
   object-fit: contain;
   transition: .7s;
-  transform: translateY(-30px);
+  transform: translateY(-60px);
+}*/
+.hidden-images-wrapper .photoBook-1 {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    bottom: 0;
+    //left: 5%;
+    width: 1100px;
+    height: 700px;
+    /*max-width: 90%;
+    max-height: 90%;*/
+    margin: auto;
+    //padding: 30px;
+    //background-color: #fff;
+    background: url(bookBg.png) no-repeat 0 0;
+    background-size: 100% 100%;
+    border-radius: 5px;
+    object-fit: contain;
+    transition:.7s;
+    transform: translateY(-60px);
+    -webkit-perspective-origin: 50% 60%;
+    perspective-origin: 50% 60%;
+    -webkit-perspective: 2000px;
+    perspective: 2000px;
 }
-.hidden-images-wrapper div:target img{
+
+.hidden-images-wrapper div:target .photoBook-1 {
+    transform: translateY(0);
+}
+/*.hidden-images-wrapper div:target img{
   transform: translateY(0);
-}
+}*/
 .img-close{
   position: absolute;
   z-index: 2;

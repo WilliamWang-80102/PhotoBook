@@ -65,6 +65,15 @@ public class UploadTestServlet extends HttpServlet {
         upload.setSizeMax(TOTAL_FILE_MAXSIZE);
         // 解析request
         List<FileItem> items;
+        //得到当前登录用户的id
+        String id=(String)request.getSession().getAttribute("id");
+        //清空该用户数据库temp表
+        DBConnection.removeTemp(id);
+        //清空该用户temp文件夹下的文件
+        String tempFile=UPLOAD_DIR + id + "/temp";
+        String tempFileReal=servletContext.getRealPath(tempFile);
+        deleteTempFile(tempFileReal);
+
         try {
             items = upload.parseRequest(request);
             // 处理解析处理的请求对象
@@ -79,7 +88,7 @@ public class UploadTestServlet extends HttpServlet {
                     System.out.println("UploadTestServlet file path:"+UPLOAD_DIR+fileName);
                     //判断空
                     if (fileName!=null && !"".equals(fileName)) {
-                        String id=(String)request.getSession().getAttribute("id");//得到当前登录用户的id
+
                         String imgPath = realPath + id + "/temp/";
 
                         File imgDir = new File(imgPath);
@@ -96,7 +105,6 @@ public class UploadTestServlet extends HttpServlet {
                         //存入数据库
                         DBConnection.save2Temp(id,UPLOAD_DIR  + id + "/temp/" +fileName);
                         out.write("ok");
-                        //DBConnection.removeTemp(id);
                     }
                 }
             }
@@ -104,5 +112,13 @@ public class UploadTestServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+    }
+
+    protected void deleteTempFile(String path){
+        File tempFile=new File(path);
+        File[] tempFiles=tempFile.listFiles();
+        for(int i=0;i<tempFiles.length;i++){
+            tempFiles[i].delete();
+        }
     }
 }

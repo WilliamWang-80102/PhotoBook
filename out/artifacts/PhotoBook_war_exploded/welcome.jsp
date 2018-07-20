@@ -62,19 +62,23 @@
         <div style="position:absolute; height:800px; overflow:auto">
             <div class="display">
                 <%-- 根据用户名找到用户已建照片书 --%>
-                <% List books = Book2Database.selectAllBook("William"); %>
+                <% List books = Book2Database.selectAllBook((String)request.getSession().getAttribute("id")); %>
                 <% for(int i = 0; i <= books.size(); i++){ %>
                     <%-- 第一个 --%>
                     <% if(i == 0){%>
                         <div class="row">
                             <div class="col-md-3 col-sm-6 col-xs-12">
                                 <div class="thumbnail">
-                                    <img src="img/add.png" width="280" alt="...">
+                                    <img src="img/add.png" width="1000" alt="...">
                                     <div class="caption">
-                                        <a href="theme.html"><button class="btn btn-primary">创建新相册</button></a>
+                                        <a href="theme.jsp"><button class="btn btn-primary">创建新相册</button></a>
                                     </div>
                                 </div>
                             </div>
+                    <%-- 没有书本，直接结束标签 --%>
+                    <%if(0==books.size()){%>
+                        </div>
+                    <%}%>
                     <% continue;}%>
                 <%-- 每一行的第一个元素 --%>
                 <%if(i%3 == 0){%>
@@ -82,7 +86,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-xs-12 ">
                         <div class="thumbnail">
-                            <%PhotoBook book = (PhotoBook)books.get(i);%>
+                            <%PhotoBook book = (PhotoBook)books.get(i-1);%>
                             <img src="<%= book.getCover()%>" alt="...">
                             <div class="caption">
                                 <h3><%= book.getBookId()%></h3>
@@ -93,7 +97,7 @@
                 <%}else{%><%-- 未转行 --%>
                     <div class="col-md-3 col-sm-6 col-xs-12 ">
                         <div class="thumbnail">
-                            <%PhotoBook book = (PhotoBook)books.get(i);%>
+                            <%PhotoBook book = (PhotoBook)books.get(i-1);%>
                             <img src="<%= book.getCover()%>" alt="...">
                             <div class="caption">
                                 <h3><%= book.getBookId()%></h3>

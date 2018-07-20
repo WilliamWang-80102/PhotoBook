@@ -26,8 +26,8 @@
     width: 1100px;
     height: 700px;
     position: relative;
-    top:60px;
-    left:0;
+    top:100px;
+    left:500px;
     //margin: 30px auto;
     -webkit-perspective-origin: 50% 60%;
     perspective-origin: 50% 60%;
@@ -76,7 +76,7 @@
     left: 0;
     width: 527.19px;
     height: 676.76px;
-    background: url(../l_img/bookRight.jpg) no-repeat;
+
     background-size: 100% 100%;
     //background-position: 0px 11.62px;
 }

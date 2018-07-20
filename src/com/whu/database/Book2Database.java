@@ -30,6 +30,7 @@ public class Book2Database {
             stmt.setString(3,PhotoBook.getCover());
             stmt.setString(4,PhotoBook.getContent());
             stmt.setString(5,PhotoBook.getType());
+            stmt.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
         }catch (Exception e){

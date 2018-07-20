@@ -43,7 +43,7 @@
                  -webkit-transition-duration: 0.4s;
                  transition-duration: 0.4s;
              }
-                 .save:hover {
+             .save:hover {
                      box-shadow: 0 12px 16px 0 rgba(0,0,0,0.35),0 17px 50px 0 rgba(0,0,0,0.35);
                  }
              .button1:hover {
@@ -93,6 +93,12 @@
                  float: left;
                  border: 0
              }
+
+             .bookPage .bookContent{
+                 background-image: url(<%= request.getSession().getAttribute("background") %>);
+                 background-repeat-x: no-repeat;
+                 background-repeat-y: no-repeat;
+             }
          </style>
 		 <title>PhotoBook</title>
 		 <link rel="stylesheet" href="l_css/style.css" type="text/css" media="all" />
@@ -101,17 +107,7 @@
          <script src="l_js/modernizr.custom.js"></script>
          <script type="text/javascript" src="l_js/jquery.min.js"></script>
          <script type="text/javascript" src="l_js/bookTurn.js"></script>
-         <script>
-             window.onload(function () {
-                 document.getElementById("bookContentF").getElementsByTagName("img")[0].style.img.src = <%= request.getAttribute("cover") %>;
-                 document.getElementById("bookContentB").getElementsByTagName("img")[0].style.img.src = <%= request.getAttribute("cover") %>;
-                 var pages = document.getElementsByClassName("bookContent");
-                 for (page of pages){
-                     page.style.backgroundImage = "url(<%= request.getAttribute("background") %>)";
-                 }
-             })
-         </script>
-         
+
      </head>
      
      <body>
@@ -162,8 +158,8 @@
                              <td height="100px" width="100px">
                                  <img src="/${mapKey}" style="max-width:100%;max-height:100%" draggable="true" ondragstart="drag(event)" id=${map.count}"/>
                           </td>
-                             <c:if test="${map.count%3==0}"></tr></c:if>
-                         </c:forEach>
+                          <c:if test="${map.count%3==0}"></tr></c:if>
+                       </c:forEach>
                      </tr>
                  </table>
              </div>
@@ -177,10 +173,10 @@
 
                  <div class="bookCover runPage">
                      <div id="bookContentF" class="bookContent">
-                         <img src="l_img/cover.jpg" />
+                         <img width="550" height="700" src="<%= request.getSession().getAttribute("cover") %>" />
                      </div>
                      <div id="bookContentB" class="bookContent">
-                         <img src="l_img/cover.jpg" />
+                         <img width="550" height="700" src="<%= request.getSession().getAttribute("cover") %>"/>
                      </div>
                  </div>
 
@@ -222,9 +218,13 @@
              </div>
 
 
-         
-         <input class="save" type="button" onclick="" value="保存" />
+            <form action="/SaveServlet" method="post">
+                <input id="myBook_id" type="hidden" name="book_id" value="" />
+                <input id="myPhotobook" type="hidden" name="photobook" value="" />
+                <input class="save" type="submit" onclick="" value="保存" />
+            </form>
 
-         <script src="l_js/mainBoard.js"></script>
+             <script src="l_js/mainBoard.js"></script>
+
      </body>
 </html>

@@ -2,6 +2,7 @@ package com.whu.controller.download;
 
 import com.whu.database.DBConnection;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +22,8 @@ public class FileDownLoadServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String mapPath="C:\\Users\\Administrator\\Desktop\\2018实训\\PhotoBook-dev\\out\\artifacts\\PhotoBook_war_exploded\\uploadDir\\map";
+        ServletContext servletContext = request.getServletContext();
+        String mapPath= servletContext.getRealPath(UPLOAD_DIR_MAP);
         List mapList=new ArrayList();
         File fileMap=new File(mapPath);
         File[] arrayMap=fileMap.listFiles();
@@ -39,7 +40,7 @@ public class FileDownLoadServlet extends HttpServlet {
             session.setAttribute("a",a);
             session.setAttribute("fileList",photoList);//照片
             session.setAttribute("MapList",mapList);//贴图
-            response.sendRedirect("/lpj_test/mainBoard.jsp");
+            response.sendRedirect("/mainBoard.jsp");
             //response.sendRedirect("/DB2Web.jsp");
         }catch (Throwable throwable){
             throwable.printStackTrace();

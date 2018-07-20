@@ -30,9 +30,23 @@ public class RegisterServlet extends HttpServlet {
 
 
         String message = "";//出错信息
+
         try {
+            //判断账号是否已注册
+            if ((0)!=(User2DataBase.test(id))) {
+                message = "此账号已经注册";
+                //request.setAttribute("message", message);
+                request.getSession().setAttribute("message",message);
+                response.sendRedirect("/Register.jsp");
+                //  request.getRequestDispatcher("/Login.jsp").forward(request, response);
+                //response.sendRedirect("Login.jsp");
+            } //判断密码是否正确
+
             //判断两次输入的密码是否一致
-            if (password_1.equals(password_2)) {
+            else if (password_1.equals(password_2)) {
+                message = "注册成功，请登陆";
+                //request.setAttribute("message", message);
+                request.getSession().setAttribute("message",message);
                 /*
                  * 注册成功之后
                  * 将id和password_2存入数据库
@@ -40,11 +54,12 @@ public class RegisterServlet extends HttpServlet {
                 User2DataBase.insert(id,password_2);
               //  RequestDispatcher rd = request.getRequestDispatcher("/Login.jsp");
               //  rd.forward(request, response);
-                response.sendRedirect("/Login.jsp");
+                response.sendRedirect("Login.jsp");
 
             } else {
                 message = "两次密码不一致";
-                request.setAttribute("message", message);
+                request.getSession().setAttribute("message",message);
+              //  request.setAttribute("message", message);
               //  request.getRequestDispatcher("/Register.jsp").forward(request, response);
                 response.sendRedirect("/Register.jsp");
             }
