@@ -2,6 +2,7 @@ package com.whu.controller;
 
 import com.google.gson.*;
 import com.whu.database.Book2Database;
+import com.whu.database.DBConnection;
 import com.whu.database.Photo2Database;
 import com.whu.entity.Photo;
 import com.whu.entity.PhotoBook;
@@ -19,6 +20,8 @@ import java.util.Properties;
 
 public class SaveServlet extends HttpServlet {
     ServletContext servletContext = null;
+    private static final String UPLOAD_DIR = "uploadDir/img/";
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -89,7 +92,7 @@ public class SaveServlet extends HttpServlet {
                     FileUtils.copyFile(source, dest);
                 }
                 //再将这个文件的路径初始化给PhotoBook
-                myPhoto.setPath(path);
+                myPhoto.setPath(path + dest.getName());
                 myPhoto.setX(photo.get(1).getAsDouble());
                 myPhoto.setY(photo.get(2).getAsDouble());
                 myPhoto.setWidth(photo.get(3).getAsDouble());
@@ -103,12 +106,35 @@ public class SaveServlet extends HttpServlet {
             }
         }
 
+        String id=(String)req.getSession().getAttribute("id");
+        //清空该用户数据库temp表
+        DBConnection.removeTemp(id);
+        //清空该用户temp文件夹下的文件
+        String tempFile=UPLOAD_DIR + id + "/temp";
+        String tempFileReal=servletContext.getRealPath(tempFile);
+        File tempReal=new File(tempFileReal);
+        if(tempReal.exists()) {
+            deleteTempFile(tempFileReal);
+        }
+
         //请求分派回主页面
 
         RequestDispatcher rd = req.getRequestDispatcher("/welcome.jsp");
         rd.forward(req,resp);
 
         //resp.sendRedirect("/welcome.jsp");
+    }
+
+    protected void deleteTempFile(String path){
+        File tempFile=new File(path);
+        File[] tempFiles=tempFile.listFiles();
+        if(tempFiles.length>0) {
+            for (int i = 0; i < tempFiles.length; i++) {
+                tempFiles[i].delete();
+            }
+        }else{
+            System.out.print("文件夹为空");
+        }
     }
 }
 

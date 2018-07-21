@@ -162,17 +162,7 @@
     <script type="text/javascript" src="js/skimPhotoBook.js"></script>
     <!--<script src="js/new.js" type="text/javascript" charset="utf-8"></script>-->
     <script>
-        function myFun(sId) {
-            //numbe = sId;
-            document.getElementById('pBook' + sId).getElementsByClassName("beforeBtn")[0].classList.add("bBtn" + sId);
-            document.getElementById('pBook' + sId).getElementsByClassName("afterBtn")[0].classList.add("aBtn" + sId);
-            var newArr = document.getElementById('pBook' + sId).getElementsByClassName("runPage");
-            for (var i = 0; i < newArr.length; i++)
-            {
-                newArr[i].classList.add("rPage" + sId);
-            }
-            
-        }
+
     </script>
 </head>
 
@@ -282,6 +272,7 @@
 
                     </div>
                     <div class="hidden-images-wrapper">
+
                         <div id="photoBook1">
                             <div class="photoBook-1" id="pBook1" onclick="tranLocation(this.id)">
                                 <a class="beforeBtn bBtn1"><</a>

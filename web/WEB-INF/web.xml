@@ -65,4 +65,13 @@
         <servlet-name>ModulDownLoadServlet</servlet-name>
         <url-pattern>/ModulDownLoadServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>WelcomeServlet</servlet-name>
+        <servlet-class>com.whu.controller.WelcomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WelcomeServlet</servlet-name>
+        <url-pattern>/WelcomeServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

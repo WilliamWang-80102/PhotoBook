@@ -63,6 +63,38 @@ public class Photo2Database {
         }
         return list;
     }
+
+    public static List selectByIdAndBook(String id,String book_id){
+        Connection conn = DBConnection.getConnection();
+        String sql = "SELECT * FROM photos where user = '" + id + "' and bookid = '" + book_id + "'" ;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Photo> list = new ArrayList<>();
+        try{
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                Photo book = new Photo();
+                book.setUser(rs.getString("user"));
+                book.setBookId(rs.getString("bookid"));
+                book.setPath(rs.getString("path"));
+                book.setX(rs.getDouble("x"));
+                book.setY(rs.getDouble("y"));
+                book.setWidth(rs.getDouble("Width"));
+                book.setHeight(rs.getDouble("Height"));
+                book.setCx(rs.getDouble("cx"));
+                book.setCy(rs.getDouble("cy"));
+                book.setPage(rs.getInt("page"));
+                list.add(book);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        return list;
+    }
+
+
     //保留小数点后5位
     private static double parser(double d){
         BigDecimal b = new BigDecimal(d);

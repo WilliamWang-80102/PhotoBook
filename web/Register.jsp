@@ -38,14 +38,14 @@
 			</ul>
 			<form action="/RegisterServlet" method="post">
 				<input type="text" Name="id_register" placeholder="用户名" id="user" required="required" minlength="2" maxlength="32" class="text"
-				onblur="check('user','用户名不能为空！')" />
+				 />
 				<span id="userspan"></span>
 				<input type="password" Name="password_register" placeholder="密码" id="password" required="required" minlength="6" maxlength="32" class="text"
-				onblur="check('password','密码不能为空!')" />
+				 />
 				<input type="password" Name="password_register_2" placeholder="密码" id="password_2" required="required" minlength="6" maxlength="32" class="text"
-					   onblur="check('password','密码不能为空!')" />
+					    />
 				<span id="passwordspan"></span>
-				<p style="color:red">${message}</p>
+				<p style="color:red">${messageRegister}</p>
 				<div class="send-button w3layouts agileits">
 					<input type="submit" value="注册">
 				</div>

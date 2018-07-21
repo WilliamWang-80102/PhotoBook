@@ -64,4 +64,28 @@ public class Book2Database {
         }
         return  list;
     }
+
+    public static PhotoBook selectBook(String user, String book_id){
+        Connection conn = DBConnection.getConnection();
+        PhotoBook photoBook = null;
+        try{
+            String sql = "select * from photobook where user = '" + user +"' and bookid = '" + book_id +"'";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                photoBook = new PhotoBook();
+                photoBook.setUser(user);
+                photoBook.setBookId(rs.getString("bookid"));
+                photoBook.setCover(rs.getString("cover"));
+                photoBook.setContent(rs.getString("content"));
+                photoBook.setType(rs.getString("type"));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return photoBook;
+    }
+
 }

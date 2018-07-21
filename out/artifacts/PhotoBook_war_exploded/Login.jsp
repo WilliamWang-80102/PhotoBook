@@ -41,7 +41,7 @@
 			<input type="text" Name="id_login" placeholder="用户名" required="required" minlength="2" maxlength="32" />
 			<input type="password" Name="password_login" placeholder="密码" required="required" minlength="6" maxlength="32" />
 			<br/>
-			<p style="color:red">${message}</p>
+			<p style="color:red">${messageLogin}</p>
 			<div class="send-button w3layouts agileits ">
 				<input type="submit" value="登 录">
 			</div>

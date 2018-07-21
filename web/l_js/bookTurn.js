@@ -21,7 +21,6 @@ var canNum1 = -2;                     //记录左边画布的页数
 var totalPagenum = 4;              //这个之后是用户选择的，必须一开始就确定要用多少页
 var indexNum=1999993;                       //用于保存当前最后一页的z-index值
 
-
 //当前书里面只有三张纸，pageNum分别为0,1,2,3，其中0是封面页码
 $(function () {
     //实现滑动门的部分
@@ -47,9 +46,11 @@ $(function () {
     $('.nextBtn').bind('click', function () {
         if (pageNum <= totalPagenum-1)
         {
-            setTimeout(function () {
-                $('.lastBtn').css('display', 'block');
-            }, 2000);
+            if (pageNum == 0) {
+                setTimeout(function () {
+                    $('.lastBtn').css('display', 'block');
+                }, 2000);
+            }
             runNext(pageNum);                         //(pageNum是指右边的页码，翻右边的时候可直接用)
             pageNum++;                                //翻页之后右边的页码增加1，你懂得 
         }
@@ -108,21 +109,23 @@ $(function () {
     function runNext(index)
     {
         $('.runPage').eq(index).addClass('runClass');
-        zIndexNext(index, $('.runPage').eq(index));
-    }
-
-    function zIndexNext(index, element)                            //右边翻页按钮点击后设置翻到左边的页的z-index
-    {
-        //if (index >= totalPagenum - Math.floor((totalPagenum - 1) / 2))                                               //右边某一页后在翻页动作执行前设置它翻到左边后的z-index（因为如果不提前设置的话，会导致在翻页超过一半时，背面的z-index比此时左边的小而看不到）
-        //{
-        //    element.css('z-index', indexNum + 2 * index);
-        //}
-        setTimeout(function () {
-            element.css('z-index', 2 + 2 * index);                  //为翻到左边的页设置z-index，这里之所以不提前设置，是因为若果提前设置的话，会因为翻页还没过一半，正在翻动的页由于z-index小于后面的页而看不到            
-            element.children().eq(0).css('z-index', 1 + 2 * index);
-            element.children().eq(1).css('z-index', 2 + 2 * index);
-        }, 1000);
-        canNum1 += 2;              //点下一页按钮则将右边画布的页数加2，左边画布的页数可通过右边的确定（+1），放这里可以实现翻页过程中操作图片
+        if (index == 0)
+        {
+            setTimeout(function () {
+                $('.runPage').eq(index).css('z-index', 2 + 2 * index);                  //为翻到左边的页设置z-index，这里之所以不提前设置，是因为若果提前设置的话，会因为翻页还没过一半，正在翻动的页由于z-index小于后面的页而看不到            
+                $('.runPage').eq(index).children().eq(0).css('z-index', 1 + 2 * index);
+                $('.runPage').eq(index).children().eq(1).css('z-index', 2 + 2 * index);
+            }, 1000);
+            canNum1 += 2;              //点下一页按钮则将右边画布的页数加2，左边画布的页数可通过右边的确定（+1），放这里可以实现翻页过程中操作图片
+        }
+        else {
+            setTimeout(function () {
+                $('.runPage').eq(index-1).css('z-index', 2 + 2 * (index-1));                  //为翻到左边的页设置z-index，这里之所以不提前设置，是因为若果提前设置的话，会因为翻页还没过一半，正在翻动的页由于z-index小于后面的页而看不到            
+                $('.runPage').eq(index).children().eq(0).css('z-index', 1 + 2 * index);
+                $('.runPage').eq(index).children().eq(1).css('z-index', 2 + 2 * index);
+            }, 1000);
+            canNum1 += 2;              //点下一页按钮则将右边画布的页数加2，左边画布的页数可通过右边的确定（+1），放这里可以实现翻页过程中操作图片
+        }      
     }
 
     //点击左边的上一页按钮执行的操作
@@ -133,32 +136,49 @@ $(function () {
                 $('.lastBtn').css('display', 'none');
             }
             pageNum--;                           //（pageNum是指右边的页码，右边的页码减1即为左边要翻的页码）
-            $('.runPage').eq(pageNum).css('z-index', 2000001 - 2 * pageNum);
             runLast(pageNum);
         }
     });
 
     function runLast(index)
     {     
-        $('.runPage').eq(index).removeClass('runClass');
-        zIndexLast(index, $('.runPage').eq(index));
-    }
-
-    function zIndexLast(index, element)                    //左边按钮翻页后设置翻到右边的页的z-index
-    {
-        //if (index == 0 || index == 1)   //当开始翻左边某一页时，要提前设置该页的z-index，防止翻页超过一半时因为该页的z-index小于右边的而看不到，提前设置也不会影响它自己，因为它是左边最后一页嘛（PS：可以在纸上画下，看看各页的z-index变化）
-        //{
-
-        //}
-            //element.css('z-index', 2000001 - 2 * index);       
-            setTimeout(function () {                                      //不是左边最后一页可翻过去后再重置z-index，你懂得，不懂在纸上画画   
-            //element.css('z-index', 2000001 - 2 * index);
-            element.children().eq(0).css('z-index', 2000001 - 2 * index);
-            element.children().eq(1).css('z-index', 2000000 - 2 * index);
-        }, 1000);
-        canNum1 -= 2;             //点上一页按钮则将右边画布页数减2
+            $('.runPage').eq(index).removeClass('runClass');
+            if (index == 0)
+            {
+                setTimeout(function () {                                      //不是左边最后一页可翻过去后再重置z-index，你懂得，不懂在纸上画画 
+                    $('.runPage').eq(index).children().eq(0).css('z-index', 2000001 - 2 * index);
+                    $('.runPage').eq(index).children().eq(1).css('z-index', 2000000 - 2 * index);
+                }, 1000);
+                canNum1 -= 2;             //点上一页按钮则将右边画布页数减2
+            }
+            else {
+                $('.runPage').eq(index - 1).css('z-index', 2000001 - 2 * (index - 1));
+                setTimeout(function () {                                      //不是左边最后一页可翻过去后再重置z-index，你懂得，不懂在纸上画画 
+                    
+                    $('.runPage').eq(index).children().eq(0).css('z-index', 2000001 - 2 * index);
+                    $('.runPage').eq(index).children().eq(1).css('z-index', 2000000 - 2 * index);
+                }, 1000);
+                canNum1 -= 2;             //点上一页按钮则将右边画布页数减2
+            }
+        
     }
 });
+
+//预览照片书需要的函数
+var sPB = 0;
+function showPhotoBook() {
+    if (sPB <= 5) {
+        runNext(sPB);
+        sPB++;
+    }
+    else if (sPB > 5)
+    {
+        runLast(sPB);
+        sPB--;
+    } 
+}
+
+
 
 
 

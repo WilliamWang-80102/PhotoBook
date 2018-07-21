@@ -27,13 +27,13 @@ public class LoginServlet extends HttpServlet {
         String password_DB = User2DataBase.select(id);//根据id从数据中select到对应的password
 
 
-        String message = "";//出错信息
+        String messageLogin = "";//出错信息
 
         try {
             //判断账号是否已注册
             if ((0)==(User2DataBase.test(id))) {
-                message = "此账号未注册";
-                request.getSession().setAttribute("message",message);
+                messageLogin = "此账号未注册";
+                request.getSession().setAttribute("messageLogin",messageLogin);
               //  request.setAttribute("message", message);
               //  request.getRequestDispatcher("/Login.jsp").forward(request, response);
                 response.sendRedirect("Login.jsp");
@@ -44,8 +44,8 @@ public class LoginServlet extends HttpServlet {
                 request.getSession().setAttribute("id",id);
                 response.sendRedirect("welcome.jsp");
             } else {
-                message = "密码输入错误";
-                request.getSession().setAttribute("message",message);
+                messageLogin = "密码输入错误";
+                request.getSession().setAttribute("messageLogin",messageLogin);
               //  request.setAttribute("message", message);
               //  request.getRequestDispatcher("/Login.jsp").forward(request, response);
                 response.sendRedirect("Login.jsp");

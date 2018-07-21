@@ -67,12 +67,7 @@ public class UploadTestServlet extends HttpServlet {
         List<FileItem> items;
         //得到当前登录用户的id
         String id=(String)request.getSession().getAttribute("id");
-        //清空该用户数据库temp表
-        DBConnection.removeTemp(id);
-        //清空该用户temp文件夹下的文件
-        String tempFile=UPLOAD_DIR + id + "/temp";
-        String tempFileReal=servletContext.getRealPath(tempFile);
-        deleteTempFile(tempFileReal);
+
 
         try {
             items = upload.parseRequest(request);
@@ -114,11 +109,6 @@ public class UploadTestServlet extends HttpServlet {
 
     }
 
-    protected void deleteTempFile(String path){
-        File tempFile=new File(path);
-        File[] tempFiles=tempFile.listFiles();
-        for(int i=0;i<tempFiles.length;i++){
-            tempFiles[i].delete();
-        }
-    }
+
+
 }
