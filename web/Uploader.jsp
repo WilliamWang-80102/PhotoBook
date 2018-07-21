@@ -58,6 +58,11 @@
         }
     </script>
 
+    <style>
+        body{
+            background-size: 100% 100%;
+        }
+    </style>
 </head>
 
 <body background="img/background.jpg">
@@ -90,7 +95,7 @@
         </div>
     </div>
 
-    <div style="overflow:scroll;width:400px;height:400px;">
+    <div style="overflow:auto;width:400px;height:400px;">
 <div id="uploader" class="wu-example" >
     <!--用来存放文件信息-->
     <div id="thelist" class="uploader-list"></div>
@@ -161,7 +166,7 @@
         // 当有文件添加进来的时候
         uploader.on( 'fileQueued', function( file ) {
             var $li = $(
-                '<div style="position:absolute;margin-left:400px;margin-top:225px;z-index:3"><div id="' + file.id + '" class="file-item thumbnail">' +
+                '<div  class="col-md-4 col-sm-4 col-xs-12"><div id="' + file.id + '" class="file-item thumbnail">' +
                 '<img>' +
                 '<div class="info">' + file.name + '</div>' +
                 '</div></div>'

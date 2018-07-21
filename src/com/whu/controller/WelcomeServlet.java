@@ -24,6 +24,7 @@ public class WelcomeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String id = (String)request.getSession().getAttribute("id");
         String book_id = request.getParameter("book_id");
         List list = Photo2Database.selectByIdAndBook(id,book_id);
@@ -55,7 +56,6 @@ public class WelcomeServlet extends HttpServlet {
                 out.close();
             }
         }
-
     }
 
 

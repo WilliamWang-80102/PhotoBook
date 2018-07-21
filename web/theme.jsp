@@ -31,18 +31,10 @@
                 }
             }
         }
-        <%--
-        function travel2Servlet(){
-            <%request.getSession().setAttribute("module","img/travel");%>
-        }
-        function love2Servlet() {
-            <%request.getSession().setAttribute("module","img/love");%>
-        }
-        --%>
     </script>
 </head>
 
-<body background="img/background.jpg">
+<body background="img/background.jpg" style="background-size:100% 100%">
 <div class="rgba">
     <div id="header">
         <div class="header_warpper">

@@ -26,16 +26,16 @@
             left: 0;
             opacity: 0.5;
         }
-        #thumbnail .box-Content {
+        .thumbnail .box-Content {
             width: 100%;
             height:100%;
-        //padding: 14px 18px;
+            padding: 14px 18px;
             color: #fff;
             position: absolute;
             top: 0;
             left: 0;
         }
-        #thumbnail .title {
+        .thumbnail .title {
             font-size: 50px;
             font-weight: 600;
             line-height: 300px;
@@ -45,7 +45,7 @@
             opacity: 0;
             transition: all 0.5s ease 0s;
         }
-        #thumbnail:hover .title {
+        .thumbnail:hover .title {
             opacity: 1;
             transition-delay: 0.7s;
         }
@@ -157,6 +157,30 @@
             text-decoration:none;
         }
 
+        .myRow{
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .flexItem{
+            margin-left: 4%;
+            margin-right:4%;
+        }
+
+        .myRow{
+            display: flex;
+            justify-content: flex-start;
+            margin-left: auto;
+            margin-right:auto;
+        }
+
+        .thumbnail a>img, .thumbnail>img{
+            height: 350px;
+        }
+
+        .thumbnail{
+            position: relative;
+        }
     </style>
 
     <link rel="stylesheet" type="text/css" href="css/pic_mystyle.css">
@@ -287,11 +311,11 @@
                      }
                  }
              )
-  } 
+  }
     </script>
 </head>
 
-<body background="img/background.jpg">
+<body background="img/background.jpg" style="background-size:100% 100%">
     <div class="rgba">
         <div id="header">
             <div class="header_warpper">
@@ -319,17 +343,17 @@
                  </ul>
              </div>
         </div>
-        <div style="position:absolute; height:800px; overflow:auto">
-            <div class="display">
+        <div style="height:800px; overflow:auto">
+            <div class="display" >
                 <%-- 根据用户名找到用户已建照片书 --%>
                 <% List books = Book2Database.selectAllBook((String)request.getSession().getAttribute("id")); %>
                 <% for(int i = 0; i <= books.size(); i++){ %>
                     <%-- 第一个 --%>
                     <% if(i == 0){%>
-                        <div class="row">
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="thumbnail">
-                                    <img src="img/add.png" width="1000" alt="...">
+                        <div class="row myRow">
+                            <div class="col-md-3 col-sm-6 col-xs-12 flexItem">
+                                <div class="thumbnail" style="height:484px;">
+                                    <img src="img/add.png" alt="..." />
                                     <div class="caption">
                                         <a href="theme.jsp"><button class="btn btn-primary">创建新相册</button></a>
                                     </div>
@@ -343,12 +367,12 @@
                 <%-- 每一行的第一个元素 --%>
                 <%if(i%3 == 0){%>
                 </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-6 col-xs-12 ">
-                        <div class="thumbnail">
+                <div class="row myRow">
+                    <div class="col-md-3 col-sm-6 col-xs-12 flexItem">
+                        <div class="thumbnail" style="height:484px;">
                             <%PhotoBook book = (PhotoBook)books.get(i-1);%>
                             <a class="box" id="<%= i %>" href="#photoBook" onclick="myFun(this.id)">
-                                <img src="<%= book.getCover()%>" alt="..." />
+                                <img src="<%= book.getCover()%>" alt="..." style="height:350px"/>
                                 <div class="box-Content">
                                     <h4 class="title">点我浏览</h4>
                                 </div>
@@ -360,11 +384,11 @@
                         </div>
                     </div>
                 <%}else{%><%-- 未转行 --%>
-                    <div class="col-md-3 col-sm-6 col-xs-12 ">
-                        <div class="thumbnail">
+                    <div class="col-md-3 col-sm-6 col-xs-12 flexItem">
+                        <div class="thumbnail" style="height:484px;">
                             <%PhotoBook book = (PhotoBook)books.get(i-1);%>
                             <a class="box" id="<%= i %>" href="#photoBook" onclick="myFun(this.id)">
-                                <img src="<%= book.getCover()%>" alt="..." />
+                                <img src="<%= book.getCover()%>" alt="..." style="height:350px"/>
                                 <div class="box-Content">
                                     <h4 class="title">点我浏览</h4>
                                 </div>

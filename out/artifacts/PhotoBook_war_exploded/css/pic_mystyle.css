@@ -58,7 +58,7 @@
   opacity: 1;
   pointer-events: auto;
 }
-/*.hidden-images-wrapper img{
+.hidden-images-wrapper .img{
   display: block;
   position: absolute;
   z-index: 3;
@@ -77,7 +77,7 @@
   object-fit: contain;
   transition: .7s;
   transform: translateY(-60px);
-}*/
+}
 .hidden-images-wrapper .photoBook-1 {
     display: block;
     position: absolute;
@@ -96,20 +96,54 @@
     background-size: 100% 100%;
     border-radius: 5px;
     object-fit: contain;
-    transition:.7s;
-    transform: translateY(-60px);
+    //transition:.7s;
+
+    //transform: translateY(-60px);
+
     -webkit-perspective-origin: 50% 60%;
     perspective-origin: 50% 60%;
     -webkit-perspective: 2000px;
     perspective: 2000px;
-}
 
+}
+/*
 .hidden-images-wrapper div:target .photoBook-1 {
     transform: translateY(0);
 }
-/*.hidden-images-wrapper div:target img{
+*/
+.hidden-images-wrapper .choBtn {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    bottom: 15%;
+    width: 120px;
+    height: 50px;
+    margin: auto;
+    padding: 0;
+    background: -webkit-linear-gradient(top,#66B5E6,#2e88c0);
+    background: -moz-linear-gradient(top,#66B5E6,#2e88c0);
+    background: linear-gradient(top,#66B5E6,#2e88c0);
+    box-shadow: 0 1px 2px #8AC1E2 inset,0 -1px 0 #316F96 inset;
+    border-radius: 5px;
+    transition: .7s;
+    transform: translateY(60px);
+    font-size: 20px;
+}
+.hidden-images-wrapper .choBtn:hover {
+    background: -webkit-linear-gradient(top,#8DC9EF,#4E9FD1);
+    background: -moz-linear-gradient(top,#8DC9EF,#4E9FD1);
+    background: linear-gradient(top,#8DC9EF,#4E9FD1);
+    background: -ms-linear-gradient(top,#8DC9EF,#4E9FD1);
+}
+.hidden-images-wrapper div:target .choBtn {
+    transform: translateY(0);
+}
+
+.hidden-images-wrapper div:target .img{
   transform: translateY(0);
-}*/
+}
 .img-close{
   position: absolute;
   z-index: 2;

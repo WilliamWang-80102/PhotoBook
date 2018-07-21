@@ -9,11 +9,13 @@ $(function () {                            //载入界面时要做的事
     newArra.style.left = t + "%";
     //点击右边的下一页按钮执行的操作
     $('.afterBtn').bind('click', function () {
+        /*
         if (pageNum == 0)             //是封面的话
         {
             document.getElementById('pBook').style.left = "0";
             document.getElementById('pBook').style.right = "0";
         }
+        */
         if (pageNum <= totalPage - 1) {
             if (pageNum == 0) {
                 setTimeout(function () {
@@ -49,9 +51,11 @@ $(function () {                            //载入界面时要做的事
         if (pageNum >= 1) {                      //右边的页码>=1说明左边至少有页码为0的页，可以翻
             if (pageNum == 1) {
                 $('.beforeBtn').css('display', 'none');
+                /*
                 var j = (0.5 - 825 / document.body.clientWidth) * 100;
                 document.getElementById('pBook').style.left = j + "%";
                 $('#pBook').css('right', '');
+                */
             }
             pageNum--;                           //（pageNum是指右边的页码，右边的页码减1即为左边要翻的页码）           
             runLast(pageNum);

@@ -45,9 +45,12 @@
 				<input type="password" Name="password_register_2" placeholder="密码" id="password_2" required="required" minlength="6" maxlength="32" class="text"
 					    />
 				<span id="passwordspan"></span>
-				<p style="color:red">${messageRegister}</p>
+
 				<div class="send-button w3layouts agileits">
 					<input type="submit" value="注册">
+				</div>
+				<div align="center">
+					<p style="color:red">${messageRegister}</p>
 				</div>
 			</form>
 		</div>
